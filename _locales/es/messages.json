@@ -3,7 +3,7 @@
     "message": "Lock In"
   },
   "extDescription": {
-    "message": "Bloquea los sitios que te distraen el tiempo que elijas — y cuenta cada vez que intentas escaparte."
+    "message": "Bloquea los sitios que te distraen el tiempo que elijas - y cuenta cada vez que intentas escaparte."
   },
   "popupIdleLabel": {
     "message": "desbloqueado"
@@ -94,7 +94,7 @@
     "message": "hoy todavía no pasó nada."
   },
   "blockedPageTitle": {
-    "message": "ni hablar — Lock In"
+    "message": "ni hablar - Lock In"
   },
   "blockedShout1": {
     "message": "ni hablar."
@@ -145,7 +145,7 @@
     "message": "sesión en pausa. los sitios vuelven cuando la reanudes."
   },
   "summaryPageTitle": {
-    "message": "los números — Lock In"
+    "message": "los números - Lock In"
   },
   "summaryHeading": {
     "message": "los números"

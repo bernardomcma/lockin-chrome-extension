@@ -1,8 +1,8 @@
 /**
  * Runtime-switchable translations.
  *
- * chrome.i18n.getMessage cannot be redirected — it always answers in the
- * browser's UI language — so the UI strings are loaded from the packaged
+ * chrome.i18n.getMessage cannot be redirected - it always answers in the
+ * browser's UI language - so the UI strings are loaded from the packaged
  * _locales files instead and the choice is kept in storage. chrome.i18n still
  * serves the manifest (`__MSG_extName__`), which Chrome resolves against the
  * browser locale for the store listing; that is a separate concern.
@@ -84,7 +84,7 @@ export async function setLocale(code) {
  *
  * Chrome reads `$NAME$` in a message as a named placeholder that must be
  * declared in the entry's `placeholders` block, and refuses to load the whole
- * extension if one is not — so a message like `"$1h$2"` is illegal, because
+ * extension if one is not - so a message like `"$1h$2"` is illegal, because
  * `$1h$` looks like a placeholder called "1h". Two adjacent positional
  * substitutions separated by letters have to be written the long way:
  *
@@ -151,7 +151,7 @@ export function applyStaticText(root = document) {
   }
 }
 
-/** "9:22" — minutes and zero-padded seconds, floored at zero. */
+/** "9:22" - minutes and zero-padded seconds, floored at zero. */
 export function formatClock(ms) {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
   const minutes = Math.floor(totalSeconds / 60);
@@ -159,7 +159,7 @@ export function formatClock(ms) {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
-/** "1h50" / "45 min" — compact, for stat lines that carry several figures. */
+/** "1h50" / "45 min" - compact, for stat lines that carry several figures. */
 export function formatDuration(ms) {
   const totalMinutes = Math.round(ms / 60000);
   const hours = Math.floor(totalMinutes / 60);

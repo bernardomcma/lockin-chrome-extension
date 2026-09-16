@@ -56,7 +56,7 @@ const allFiles = walk('');
 
 /*
  * What ships is the zip's own list, not a second guess at it. Everything else
- * in the repo — tools/, docs/, the store screenshots, the READMEs — is still
+ * in the repo - tools/, docs/, the store screenshots, the READMEs - is still
  * parsed below, but is exempt from the rules about what may ship (no remote
  * URLs, no forbidden CSS, size).
  */
@@ -169,7 +169,7 @@ for (const code of declaredCodes) {
  * Chrome parses the whole default-locale bundle when the extension loads, and
  * reads `$NAME$` as a named placeholder that must be declared in that entry's
  * `placeholders` block. One undeclared name fails the entire manifest with
- * "Variable $NAME$ used but not defined" — not just that one string.
+ * "Variable $NAME$ used but not defined" - not just that one string.
  *
  * The trap is a message like "$1h$2": the `$1h$` in the middle looks like a
  * placeholder called "1h". Two positional substitutions separated by letters
@@ -205,7 +205,7 @@ for (const locale of localeDirs) {
 
       if (!declared.has(name.toLowerCase())) {
         fail(
-          `_locales/${locale} "${key}" uses $${name}$ but declares no such placeholder — `
+          `_locales/${locale} "${key}" uses $${name}$ but declares no such placeholder - `
           + `Chrome refuses to load the extension with `
           + `"Variable $${name}$ used but not defined"`
         );
@@ -238,7 +238,7 @@ for (const file of allFiles.filter(f => /\.(json|js|mjs|html|css|md)$/.test(f)))
   const count = (source.match(REPLACEMENT_CHAR) || []).length;
 
   if (count) {
-    fail(`${file} contains ${count} U+FFFD replacement character(s) — text was corrupted somewhere`);
+    fail(`${file} contains ${count} U+FFFD replacement character(s) - text was corrupted somewhere`);
   }
 }
 
@@ -311,11 +311,11 @@ for (const match of JSON.stringify(manifest).matchAll(/__MSG_([A-Za-z0-9_]+)__/g
 }
 
 if (manifest.host_permissions?.length) {
-  fail(`manifest declares host_permissions (${manifest.host_permissions.join(', ')}) — these trigger slow review`);
+  fail(`manifest declares host_permissions (${manifest.host_permissions.join(', ')}) - these trigger slow review`);
 }
 
 if (manifest.web_accessible_resources) {
-  fail('manifest declares web_accessible_resources — this exposes the extension ID to every page');
+  fail('manifest declares web_accessible_resources - this exposes the extension ID to every page');
 }
 
 const KNOWN_USED_PERMISSIONS = new Set(['storage', 'tabs', 'alarms']);
@@ -364,7 +364,7 @@ if (manifest.homepage_url !== REPO_URL) {
 
 for (const document of ['PRIVACY.md', 'docs/store-listing.md']) {
   if (!allFiles.includes(document)) {
-    fail(`${document} is missing — the store listing links to it`);
+    fail(`${document} is missing - the store listing links to it`);
   }
 }
 
@@ -379,7 +379,7 @@ for (const required of [`${REPO_URL}/issues`, `${REPO_URL}/blob/main/PRIVACY.md`
 /* ── 8. nothing loads from the network ── */
 
 /*
- * XML namespace URIs are identifiers, not addresses — createElementNS requires
+ * XML namespace URIs are identifiers, not addresses - createElementNS requires
  * the SVG one verbatim and nothing is ever fetched from it.
  */
 const NAMESPACE_URIS = new Set([
@@ -404,7 +404,7 @@ for (const file of [...htmlFiles, ...cssFiles, ...jsFiles]) {
       continue;
     }
 
-    fail(`${file} references a remote URL (${match[0]}) — everything must be bundled`);
+    fail(`${file} references a remote URL (${match[0]}) - everything must be bundled`);
   }
 }
 
@@ -523,7 +523,7 @@ function base58Length(input) {
  * valid address, and Node's key import does not validate curve membership
  * either (measured: it rejects about 1% of single-character typos). Pinning is
  * the only thing that catches a silent edit, which is the failure that actually
- * happens — an editor mangling a character, a bad copy-paste, a lossy tool.
+ * happens - an editor mangling a character, a bad copy-paste, a lossy tool.
  *
  * Changing an address means changing it here too, on purpose.
  */
@@ -586,7 +586,7 @@ for (const file of cssFiles) {
 
   for (const [pattern, label] of bannedInCss) {
     if (pattern.test(source)) {
-      fail(`${file} uses ${label} — the design system forbids it`);
+      fail(`${file} uses ${label} - the design system forbids it`);
     }
   }
 }

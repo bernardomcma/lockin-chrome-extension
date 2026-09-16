@@ -55,7 +55,7 @@ body {
 
 /*
  * One type size for the whole row. Three controls share 316px, and in
- * Portuguese they came to 332 — the icon button dropped onto a line of its
+ * Portuguese they came to 332 - the icon button dropped onto a line of its
  * own. Matching the quiet link to the small buttons' 11px and trimming the
  * donate button's tracking and padding brings the row back under the width in
  * all three shipped languages, and it reads as one row rather than two sizes

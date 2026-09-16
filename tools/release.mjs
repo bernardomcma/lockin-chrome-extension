@@ -64,7 +64,7 @@ if (BUMPS[requested]) {
 
 /**
  * Component-wise, numerically: Chrome compares each dotted field as a number,
- * so 1.0.10 really does beat 1.0.9 — string comparison would say otherwise.
+ * so 1.0.10 really does beat 1.0.9 - string comparison would say otherwise.
  * A release that goes backwards is only rejected at upload, long after the
  * commit and the tag exist.
  */

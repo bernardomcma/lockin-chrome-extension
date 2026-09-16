@@ -68,8 +68,8 @@ function isHttpUrl(rawUrl) {
 }
 
 /**
- * A rule matches if the hostname equals its host or is a subdomain of it, and —
- * when the rule carries one — the path sits under its prefix. The prefix has to
+ * A rule matches if the hostname equals its host or is a subdomain of it, and -
+ * when the rule carries one - the path sits under its prefix. The prefix has to
  * end on a segment boundary, so `/shorts` does not swallow `/shortstories`.
  *
  * Bare keywords (no dot in the host) match anywhere in the URL, so "reddit"
@@ -153,9 +153,9 @@ function covers(broad, narrow) {
  * Returns the rule in `sites` that already blocks everything `site` would, or
  * '' when there is none.
  *
- * A path rule is silently pointless next to a broader one — adding
+ * A path rule is silently pointless next to a broader one - adding
  * `youtube.com/shorts` to a list that already holds `youtube.com` changes
- * nothing — and without this the popup has no way to say so.
+ * nothing - and without this the popup has no way to say so.
  */
 export function findCoveringRule(site, sites) {
   const rule = canonicalizeSite(site);

@@ -36,7 +36,7 @@ try {
     cwd: root
   });
 } catch {
-  console.error('\nchecks failed — not packaging.');
+  console.error('\nchecks failed - not packaging.');
   process.exit(1);
 }
 
@@ -184,5 +184,5 @@ writeFileSync(outFile, Buffer.concat([...locals, centralDirectory, endRecord]));
 
 const kb = (statSync(outFile).size / 1024).toFixed(1);
 
-console.log(`\n✓ packaged dist/lock-in-${version}.zip — ${paths.length} files, ${kb} KB`);
+console.log(`\n✓ packaged dist/lock-in-${version}.zip - ${paths.length} files, ${kb} KB`);
 console.log('  upload at https://chrome.google.com/webstore/devconsole');

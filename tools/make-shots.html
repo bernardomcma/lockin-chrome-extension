@@ -12,7 +12,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Lock In — store shots</title>
+  <title>Lock In - store shots</title>
   <style>
     /*
      * `html > body`, never a bare `body`: the mounted page is itself a nested
@@ -193,8 +193,8 @@ for (const [name, config] of Object.entries(SHOTS)) {
 }
 
 /*
- * Read once, now. Mounting the block page rewrites the query string — it takes
- * its tally from the URL, exactly as it does in production — so anything read
+ * Read once, now. Mounting the block page rewrites the query string - it takes
+ * its tally from the URL, exactly as it does in production - so anything read
  * from location.search afterwards is gone. That is what silently stopped the
  * blocked shot from ever saving itself.
  */
@@ -204,7 +204,7 @@ const shouldSave = params.has('save');
 const shot = SHOTS[key];
 
 if (!shot) {
-  throw new Error(`unknown shot "${key}" — try ${Object.keys(SHOTS).join(', ')}`);
+  throw new Error(`unknown shot "${key}" - try ${Object.keys(SHOTS).join(', ')}`);
 }
 
 /* ── build ── */
@@ -248,7 +248,7 @@ window.SHOT = (async () => {
 /*
  * The whole chain, not just the render: `window.SHOT` resolves as soon as the
  * bytes exist, while saving them is another round trip. Awaiting DONE is what
- * tells a caller the file is actually on disk — reading window.SAVED after
+ * tells a caller the file is actually on disk - reading window.SAVED after
  * awaiting SHOT alone is a race, and it lost on the largest image.
  */
 window.DONE = window.SHOT.then(async ({ bytes }) => {

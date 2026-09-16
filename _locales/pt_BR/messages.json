@@ -3,7 +3,7 @@
     "message": "Lock In"
   },
   "extDescription": {
-    "message": "Tranca os sites que te distraem pelo tempo que você escolher — e conta cada vez que você tenta escapar."
+    "message": "Tranca os sites que te distraem pelo tempo que você escolher - e conta cada vez que você tenta escapar."
   },
   "popupIdleLabel": {
     "message": "destrancado"
@@ -94,7 +94,7 @@
     "message": "hoje ainda não rolou nada."
   },
   "blockedPageTitle": {
-    "message": "nem vem — Lock In"
+    "message": "nem vem - Lock In"
   },
   "blockedShout1": {
     "message": "nem vem."
@@ -142,7 +142,7 @@
     "message": "seguir em frente"
   },
   "summaryPageTitle": {
-    "message": "os números — Lock In"
+    "message": "os números - Lock In"
   },
   "summaryHeading": {
     "message": "os números"

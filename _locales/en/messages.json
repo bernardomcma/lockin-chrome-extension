@@ -3,7 +3,7 @@
     "message": "Lock In"
   },
   "extDescription": {
-    "message": "Locks the sites that derail you for as long as you choose — and counts every time you try to sneak back."
+    "message": "Locks the sites that derail you for as long as you choose - and counts every time you try to sneak back."
   },
   "popupIdleLabel": {
     "message": "unlocked"
@@ -94,7 +94,7 @@
     "message": "nothing today yet."
   },
   "blockedPageTitle": {
-    "message": "nope — Lock In"
+    "message": "nope - Lock In"
   },
   "blockedShout1": {
     "message": "nope."
@@ -142,7 +142,7 @@
     "message": "carry on"
   },
   "summaryPageTitle": {
-    "message": "the numbers — Lock In"
+    "message": "the numbers - Lock In"
   },
   "summaryHeading": {
     "message": "the numbers"

@@ -334,7 +334,7 @@ function writeSheet() {
   mkdirSync(join(root, 'dist'), { recursive: true });
   writeFileSync(join(root, 'dist', 'icon-candidates.png'), toPng(width, height, canvas));
 
-  console.log(`\n  dist/icon-candidates.png — rows, top to bottom: ${names.join(', ')}`);
+  console.log(`\n  dist/icon-candidates.png - rows, top to bottom: ${names.join(', ')}`);
   console.log('  columns: 128, 48, 16 at 8x, 16 actual size');
 }
 

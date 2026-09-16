@@ -1,7 +1,7 @@
 # Lock In
 
 A Chrome extension that locks the sites that derail you for as long as you
-choose — and counts every time you try to sneak back.
+choose - and counts every time you try to sneak back.
 
 No build step, no dependencies, no network requests. Manifest V3.
 
@@ -22,19 +22,19 @@ No build step, no dependencies, no network requests. Manifest V3.
 
 ## Languages
 
-The default is **English**, for everyone — the browser's own language is never
+The default is **English**, for everyone - the browser's own language is never
 consulted. The user's choice lives in `chrome.storage.local` and applies to all
 three screens.
 
 `chrome.i18n.getMessage` is no use here: it always answers in the browser's UI
 language and cannot be redirected at runtime. So `src/utils/i18n.js` loads
 `_locales/<code>/messages.json` with `fetch` and resolves keys itself, falling
-back to English per key — an incomplete translation shows English rather than
+back to English per key - an incomplete translation shows English rather than
 showing blanks.
 
 `chrome.i18n` is still used for exactly one thing: the manifest's `name` and
 `description` (`__MSG_extName__`). That is the **store listing** text, which
-Chrome resolves against the viewer's browser language — so the listing is
+Chrome resolves against the viewer's browser language - so the listing is
 translated into all three languages for free.
 
 Since `chrome.i18n` has no plural support, counted phrases live in two keys,
@@ -47,7 +47,7 @@ To add a language: create `_locales/<code>/messages.json`, add the entry to
 
 The flags are inline SVG, not emoji: Windows ships no glyph for regional
 indicator pairs, so Chrome there draws 🇺🇸 as the letters "US" in a box. Each
-button carries the language's own name as its accessible label — a flag stands
+button carries the language's own name as its accessible label - a flag stands
 for a country, not a language, and the label is what is actually true.
 
 ## How blocking works
@@ -57,7 +57,7 @@ It does not use `declarativeNetRequest`. The service worker listens on
 the list, and redirects the tab to `blocked.html`.
 
 That is deliberate: DNR blocks before render, but it cannot tell you *which*
-rule fired without the extra `declarativeNetRequestFeedback` permission — and
+rule fired without the extra `declarativeNetRequestFeedback` permission - and
 counting attempts per site is half the point of the extension. The cost is that
 navigation starts before the redirect.
 
@@ -67,11 +67,11 @@ Site matching:
 | --- | --- | --- |
 | `reddit.com` | `reddit.com`, `www.reddit.com`, `old.reddit.com` | `notreddit.com` |
 | `youtube.com/shorts` | `/shorts`, `/shorts/abc`, `m.youtube.com/shorts` | `/watch?v=…`, `/shortstories` |
-| `reddit` | any URL containing "reddit", including a search for reddit | — |
+| `reddit` | any URL containing "reddit", including a search for reddit | - |
 
 A path is a prefix that has to end on a segment boundary, which is how
 `youtube.com/shorts` takes the shorts feed away and leaves the lectures
-reachable. Query strings and fragments are dropped when the rule is saved —
+reachable. Query strings and fragments are dropped when the rule is saved -
 they vary per visit, so they could never match.
 
 When two rules both match, the more specific one is the one counted: a list
@@ -91,7 +91,7 @@ and the block page itself stay reachable.
 | `alarms` | ending the session on time, even while the service worker sleeps |
 
 There are no `host_permissions`, no `web_accessible_resources`, and nothing is
-loaded from the network — the font is bundled in `assets/fonts/`. That keeps
+loaded from the network - the font is bundled in `assets/fonts/`. That keeps
 Chrome Web Store review on the fast path and does not leak the extension ID to
 the sites you visit.
 
@@ -145,8 +145,8 @@ npm run release -- patch   # or minor, major, or an explicit 1.2.0
 
 It bumps `manifest.json` and `package.json` together, runs the tests and the
 checks, builds the zip, then commits and tags. If anything fails the version
-files go back to their committed state — a half-applied release is worse than
-none — and it refuses to run on a dirty tree, so the release commit is only
+files go back to their committed state - a half-applied release is worse than
+none - and it refuses to run on a dirty tree, so the release commit is only
 the bump.
 
 The version has to beat the last one, and the store rejects a package that
@@ -161,7 +161,7 @@ locales drifting from each other, from the code, or from the flag list.
 ### UI preview
 
 To see the screens without reloading the extension, serve the root and open the
-harness — it stubs the `chrome.*` APIs, seeds sample data, and loads the real
+harness - it stubs the `chrome.*` APIs, seeds sample data, and loads the real
 code:
 
 ```bash
@@ -186,11 +186,11 @@ flag tile works in the harness, so you can switch languages there too.
 ### Store assets
 
 The screenshots and promo tiles are composed from the same harness, so they
-cannot drift from the interface — nothing in them is drawn by hand. Serve the
+cannot drift from the interface - nothing in them is drawn by hand. Serve the
 root, then open, adding `&save=1` to write the file into `store/`:
 
-- `tools/make-shots.html?shot=idle` — also `running`, `blocked`, `summary`
-- `tools/make-tiles.html?tile=small` — also `marquee`
+- `tools/make-shots.html?shot=idle` - also `running`, `blocked`, `summary`
+- `tools/make-tiles.html?tile=small` - also `marquee`
 
 Both rasterise through `tools/raster.js`, which encodes a colour-type-2 PNG by
 hand because the store wants 24-bit with no alpha and `canvas.toDataURL` always
@@ -209,7 +209,7 @@ from a fixed instant would be worse, because the page code calls the real
 The popup footer has a `support` toggle and the summary page a card, both
 rendering the same panel: LivePix, Bitcoin and Solana, each with a QR code.
 
-The QR codes are generated by `tools/make-qr.mjs` — a from-scratch encoder,
+The QR codes are generated by `tools/make-qr.mjs` - a from-scratch encoder,
 because the extension makes no network requests and fetching them from a QR
 service or embedding LivePix's own widget iframe would break that. They are
 stored as module matrices in `src/ui/qr-codes.js` and drawn as inline SVG, so
@@ -217,7 +217,7 @@ the panel costs nothing to open. The QR box stays light in dark mode: an
 inverted code is unreadable to most phone cameras.
 
 The LivePix code encodes the public donation page, `livepix.gg/bernardomrtns`.
-Not the `widget.livepix.gg/embed/...` URL — that is a page which *renders* a QR
+Not the `widget.livepix.gg/embed/...` URL - that is a page which *renders* a QR
 code, so encoding it would send whoever scanned it to another QR code.
 
 The crypto codes encode the bare address rather than a `bitcoin:` or `solana:`
@@ -226,19 +226,19 @@ it and the two can be checked against each other by eye.
 
 `npm run check` validates both addresses. The Bitcoin one is verified properly:
 bech32 carries a checksum, so a typo fails. **A Solana address cannot be
-verified** — it is 32 raw bytes with no checksum, every 32-byte value is
+verified** - it is 32 raw bytes with no checksum, every 32-byte value is
 syntactically valid, and Node's key import does not test curve membership
 either (measured: it catches about 1% of single-character typos). So both
 addresses are also pinned in `tools/check.mjs`; any change to one fails the
 check until the pin is updated deliberately. That guards against the failure
-that actually happens — a lossy edit — not against mistyping in the first
+that actually happens - a lossy edit - not against mistyping in the first
 place. Verify a new address against the wallet before pinning it.
 
 ## Design
 
 Neo-brutalist: 2px borders, solid offset shadows, flat saturated colour
 (`#CCFF00` lime, `#FF4D8D` pink) on cream, heavy Space Grotesk type. Nothing
-blurs — no `backdrop-filter`, no soft shadows, no gradient text.
+blurs - no `backdrop-filter`, no soft shadows, no gradient text.
 `tools/check.mjs` fails the build if any of those appear in the CSS.
 
 Tokens live in `assets/theme.css`, with dark mode via `prefers-color-scheme`.
@@ -250,8 +250,8 @@ at 16px, in a strip of other toolbar icons, an abstract mark carries no meaning
 at all, and this is the one shape a person reads as "blocked" with no learning.
 An earlier draft used a focus reticle, which read as a game's targeting sight.
 
-It is generated by `tools/make-icons.mjs` — no dependencies, supersampled for
-clean corners — so all three sizes stay consistent when a proportion changes.
+It is generated by `tools/make-icons.mjs` - no dependencies, supersampled for
+clean corners - so all three sizes stay consistent when a proportion changes.
 Geometry is written in 16px units and scaled up, because 16px is the toolbar and
 it is the only size that has to land on whole pixels. The 16px version drops the
 black border: with one, there is no room left inside for the mark.
@@ -262,6 +262,6 @@ every size without the comparison ever drifting from what ships.
 
 ## Licence
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
 
 Inspired by [Work Mode](https://github.com/ShreyRavi/workmode) by Shrey Ravi.

@@ -3,7 +3,7 @@
  *
  * The flags are inline SVG rather than emoji: Windows ships no glyphs for
  * regional-indicator pairs, so Chrome there renders U+1F1FA U+1F1F8 as the
- * letters "US" in boxes instead of a flag. They are drawn simplified — at 26px
+ * letters "US" in boxes instead of a flag. They are drawn simplified - at 26px
  * wide the real number of stars and stripes turns to mush.
  *
  * Each button carries the language's own name as its accessible label, so the

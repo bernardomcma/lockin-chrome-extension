@@ -1,7 +1,7 @@
 # Lock In
 
 Uma extensão do Chrome que tranca os sites que te distraem por um tempo
-determinado — e conta cada vez que você tenta escapar.
+determinado - e conta cada vez que você tenta escapar.
 
 Sem build, sem dependências, sem requisição de rede. Manifest V3.
 
@@ -23,18 +23,18 @@ Sem build, sem dependências, sem requisição de rede. Manifest V3.
 
 ## Idiomas
 
-O padrão é **inglês**, para todo mundo — o idioma do Chrome não é consultado. A
+O padrão é **inglês**, para todo mundo - o idioma do Chrome não é consultado. A
 escolha do usuário fica em `chrome.storage.local` e vale para as três telas.
 
 `chrome.i18n.getMessage` não serve aqui: ele sempre responde no idioma da
 interface do Chrome e não pode ser redirecionado em runtime. Então
 `src/utils/i18n.js` carrega `_locales/<código>/messages.json` por `fetch` e
-resolve as chaves ele mesmo, com fallback para o inglês por chave — uma tradução
+resolve as chaves ele mesmo, com fallback para o inglês por chave - uma tradução
 incompleta aparece em inglês em vez de aparecer vazia.
 
 `chrome.i18n` continua sendo usado para uma coisa: o `name` e a `description` do
 manifest (`__MSG_extName__`). Isso é o texto da **listagem na store**, que o
-Chrome resolve pelo idioma do navegador de quem está vendo — ou seja, a listagem
+Chrome resolve pelo idioma do navegador de quem está vendo - ou seja, a listagem
 é traduzida automaticamente nos três idiomas sem trabalho extra.
 
 Como não há plural em `chrome.i18n`, frases com contagem ficam em duas chaves,
@@ -48,7 +48,7 @@ entrada em `LOCALES` (`src/utils/i18n.js`) e o desenho da bandeira em
 As bandeiras são SVG inline, não emoji: o Windows não tem glifo para pares de
 indicadores regionais, então o Chrome lá desenha 🇺🇸 como as letras "US" numa
 caixinha. Cada botão leva o nome do idioma no próprio idioma como rótulo
-acessível — bandeira representa país, não idioma, e o rótulo é o que é verdade.
+acessível - bandeira representa país, não idioma, e o rótulo é o que é verdade.
 
 ## Como o bloqueio funciona
 
@@ -57,7 +57,7 @@ Não usa `declarativeNetRequest`. O service worker escuta `chrome.tabs.onUpdated
 `blocked.html`.
 
 A escolha é deliberada: o DNR bloqueia antes da renderização, mas não informa
-qual regra disparou sem a permissão extra `declarativeNetRequestFeedback` — e
+qual regra disparou sem a permissão extra `declarativeNetRequestFeedback` - e
 contar tentativas por site é metade do propósito da extensão. O custo é que a
 navegação começa antes do redirecionamento.
 
@@ -67,11 +67,11 @@ Correspondência de sites:
 | --- | --- | --- |
 | `reddit.com` | `reddit.com`, `www.reddit.com`, `old.reddit.com` | `notreddit.com` |
 | `youtube.com/shorts` | `/shorts`, `/shorts/abc`, `m.youtube.com/shorts` | `/watch?v=…`, `/shortstories` |
-| `reddit` | qualquer URL que contenha "reddit", inclusive uma busca por reddit | — |
+| `reddit` | qualquer URL que contenha "reddit", inclusive uma busca por reddit | - |
 
 O caminho é um prefixo que precisa terminar no fim de um segmento, e é assim que
 `youtube.com/shorts` tira o feed de shorts e deixa as aulas acessíveis. Query
-string e fragmento são descartados ao salvar a regra — mudam a cada visita,
+string e fragmento são descartados ao salvar a regra - mudam a cada visita,
 então nunca casariam.
 
 Quando duas regras casam, a mais específica é a contabilizada: uma lista com
@@ -91,7 +91,7 @@ Esquemas que não são `http`/`https` nunca são bloqueados, então
 | `alarms` | encerrar a sessão no horário, mesmo com o service worker dormindo |
 
 Não há `host_permissions`, não há `web_accessible_resources` e nada é carregado
-da rede — a fonte está embutida em `assets/fonts/`. Isso mantém a revisão da
+da rede - a fonte está embutida em `assets/fonts/`. Isso mantém a revisão da
 Chrome Web Store no caminho rápido e não expõe o ID da extensão para os sites
 que você visita.
 
@@ -150,8 +150,8 @@ npm run release -- patch   # ou minor, major, ou um 1.2.0 explícito
 
 Sobe a versão no `manifest.json` e no `package.json` juntos, roda os testes e
 os checks, monta o zip, e então commita e cria a tag. Se qualquer coisa falhar,
-os arquivos de versão voltam ao estado commitado — um release pela metade é
-pior que nenhum — e ele se recusa a rodar com a árvore suja, para o commit de
+os arquivos de versão voltam ao estado commitado - um release pela metade é
+pior que nenhum - e ele se recusa a rodar com a árvore suja, para o commit de
 release ser só o bump.
 
 A versão precisa ser maior que a anterior, e a store recusa um pacote que não
@@ -160,7 +160,7 @@ porque 1.0.10 é maior que 1.0.9 e comparação de texto diz o contrário.
 
 ### Prévia da interface
 
-Para ver as telas sem recarregar a extensão, sirva a raiz e abra o harness — ele
+Para ver as telas sem recarregar a extensão, sirva a raiz e abra o harness - ele
 mocka as APIs `chrome.*`, popula dados de exemplo e carrega o código real:
 
 ```bash
@@ -185,11 +185,11 @@ bandeiras funciona no harness, então dá para trocar de idioma ali mesmo.
 ### Imagens da store
 
 As capturas e os blocos promocionais são compostos pelo mesmo harness, então
-não têm como divergir da interface — nada neles é desenhado à mão. Sirva a
+não têm como divergir da interface - nada neles é desenhado à mão. Sirva a
 raiz e abra, acrescentando `&save=1` para gravar o arquivo em `store/`:
 
-- `tools/make-shots.html?shot=idle` — também `running`, `blocked`, `summary`
-- `tools/make-tiles.html?tile=small` — também `marquee`
+- `tools/make-shots.html?shot=idle` - também `running`, `blocked`, `summary`
+- `tools/make-tiles.html?tile=small` - também `marquee`
 
 Os dois rasterizam por `tools/raster.js`, que codifica um PNG de tipo de cor 2
 na mão, porque a store quer 24 bits sem alfa e `canvas.toDataURL` sempre emite
@@ -208,36 +208,36 @@ Semear de um instante fixo seria pior, porque o código da página chama o
 O rodapé do popup tem um botão `apoiar` e a página de resumo um card, os dois
 renderizando o mesmo painel: LivePix, Bitcoin e Solana, cada um com QR code.
 
-Os QR codes são gerados por `tools/make-qr.mjs` — um encoder escrito do zero,
+Os QR codes são gerados por `tools/make-qr.mjs` - um encoder escrito do zero,
 porque a extensão não faz nenhuma requisição de rede e buscá-los de um serviço
 de QR ou embutir o widget do LivePix quebraria isso. Ficam como matrizes em
 `src/ui/qr-codes.js` e são desenhados como SVG inline. A caixa do QR continua
 clara no modo escuro: código invertido é ilegível para a maioria das câmeras.
 
 O código do LivePix codifica a página pública de doação,
-`livepix.gg/bernardomrtns`. Não a URL `widget.livepix.gg/embed/...` — aquela é
+`livepix.gg/bernardomrtns`. Não a URL `widget.livepix.gg/embed/...` - aquela é
 uma página que *renderiza* um QR code, então codificá-la levaria quem escaneou
 para outro QR code.
 
 Os códigos de cripto codificam o endereço puro, não uma URI `bitcoin:` ou
 `solana:`, então o conteúdo do QR é caractere por caractere o que a página
-mostra ao lado — e dá para conferir um contra o outro a olho.
+mostra ao lado - e dá para conferir um contra o outro a olho.
 
 `npm run check` valida os dois endereços. O do Bitcoin é validado de verdade:
 bech32 tem checksum, então erro de digitação falha. **Um endereço Solana não
-pode ser validado** — são 32 bytes crus sem checksum, qualquer valor de 32
+pode ser validado** - são 32 bytes crus sem checksum, qualquer valor de 32
 bytes é sintaticamente válido, e o import de chave do Node não testa se o ponto
 está na curva (medido: pega cerca de 1% dos erros de um caractere). Por isso os
 dois endereços também ficam fixados em `tools/check.mjs`; qualquer alteração
 falha o check até o valor fixado ser atualizado de propósito. Isso protege da
-falha que de fato acontece — uma edição corrompida — não de digitar errado na
+falha que de fato acontece - uma edição corrompida - não de digitar errado na
 origem. Confira um endereço novo contra a carteira antes de fixá-lo.
 
 ## Design
 
 Neo-brutalista: bordas de 2px, sombra sólida deslocada, cores planas e saturadas
 (`#CCFF00` lima, `#FF4D8D` rosa) sobre creme, tipografia Space Grotesk pesada.
-Nada desfoca — sem `backdrop-filter`, sem sombra suave, sem texto em gradiente.
+Nada desfoca - sem `backdrop-filter`, sem sombra suave, sem texto em gradiente.
 `tools/check.mjs` reprova o build se algum desses aparecer no CSS.
 
 Os tokens ficam em `assets/theme.css` e há suporte a modo escuro via
@@ -250,8 +250,8 @@ abstrata não comunica nada, e essa é a única forma que se lê como "bloqueado
 sem precisar aprender. Um rascunho anterior usava uma mira de foco, que lia como
 mira de jogo.
 
-É gerado por `tools/make-icons.mjs` — sem dependências, com supersampling para
-cantos limpos — para que os três tamanhos fiquem consistentes quando uma
+É gerado por `tools/make-icons.mjs` - sem dependências, com supersampling para
+cantos limpos - para que os três tamanhos fiquem consistentes quando uma
 proporção muda. A geometria é escrita em unidades de 16px e escalada, porque
 16px é a barra de ferramentas e é o único tamanho que precisa cair em pixel
 inteiro. A versão de 16px abre mão da borda preta: com ela, não sobra espaço
@@ -263,6 +263,6 @@ a lado em todos os tamanhos sem a comparação nunca divergir do que é publicad
 
 ## Licença
 
-MIT — veja [LICENSE](LICENSE).
+MIT - veja [LICENSE](LICENSE).
 
 Inspirado em [Work Mode](https://github.com/ShreyRavi/workmode), de Shrey Ravi.

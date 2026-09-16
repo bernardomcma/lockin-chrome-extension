@@ -2,8 +2,8 @@
  * Turns a live DOM node into an alpha-free PNG. Not shipped.
  *
  * Shared by make-shots.html and make-tiles.html. Every hard-won detail in here
- * cost a debugging session — the CDATA wrapper, XMLSerializer, the fixed-to-
- * absolute rewrite, the hand-rolled colour-type-2 encoder — so there is exactly
+ * cost a debugging session - the CDATA wrapper, XMLSerializer, the fixed-to-
+ * absolute rewrite, the hand-rolled colour-type-2 encoder - so there is exactly
  * one copy of it.
  */
 
@@ -65,7 +65,7 @@ export async function collectCss(root, hrefs) {
 
   /*
    * `position: fixed` resolves against the viewport, and inside the rasterised
-   * SVG the viewport is the whole canvas — the block page's hazard stripes
+   * SVG the viewport is the whole canvas - the block page's hazard stripes
    * flooded an entire screenshot once. Absolute keeps them inside the mount,
    * which is a containing block by virtue of its transform.
    */
@@ -127,7 +127,7 @@ export async function rasterise(node, width, height, css, background = '#f2ede1'
 
 /*
  * canvas.toDataURL always emits RGBA, and the store asks for 24-bit PNG with
- * no alpha channel — it says so on the upload field itself. Encoding it here
+ * no alpha channel - it says so on the upload field itself. Encoding it here
  * costs about fifty lines and removes any question of the upload being
  * refused. CompressionStream('deflate') produces exactly the zlib wrapper an
  * IDAT chunk wants.

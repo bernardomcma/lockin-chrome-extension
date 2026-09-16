@@ -25,11 +25,11 @@ are reached.
 
 ## Permissions
 
-- **`storage`** — keeps the list and the statistics above on your device.
-- **`tabs`** — reads the URL of a tab as it navigates, so a blocked site can be
+- **`storage`** - keeps the list and the statistics above on your device.
+- **`tabs`** - reads the URL of a tab as it navigates, so a blocked site can be
   replaced with the block page. URLs are compared against your own list in
   memory and are never stored or sent anywhere.
-- **`alarms`** — ends the session when the time is up, even if the service
+- **`alarms`** - ends the session when the time is up, even if the service
   worker was unloaded in the meantime.
 
 There is no permission to read page content, and none is requested.
@@ -46,7 +46,7 @@ counts, and each site on the popup's list has a control that removes it.
 
 The support panel shows a Bitcoin address, a Solana address, and a link to a
 LivePix page. The addresses are static text rendered locally, and the QR codes
-are generated at build time from those same strings — nothing is contacted
+are generated at build time from those same strings - nothing is contacted
 until you choose to open the LivePix link, at which point that page's own
 policy applies.
 

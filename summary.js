@@ -27,7 +27,7 @@ function formatWhen(isoDate) {
   const date = new Date(isoDate);
 
   if (Number.isNaN(date.getTime())) {
-    return '—';
+    return '-';
   }
 
   return date.toLocaleString(locale(), {
@@ -159,7 +159,7 @@ function renderGraph(daily) {
       plural('countSessions', day.sessions),
       plural('countBlocked', day.attempts)
     );
-    bar.setAttribute('aria-label', `${day.key} — ${label}`);
+    bar.setAttribute('aria-label', `${day.key} - ${label}`);
 
     const fill = document.createElement('div');
     fill.className = 'bar__fill';

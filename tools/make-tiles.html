@@ -14,7 +14,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Lock In — promo tiles</title>
+  <title>Lock In - promo tiles</title>
   <link rel="stylesheet" href="../assets/theme.css" />
   <style>
     /*
@@ -102,7 +102,7 @@ const ROOT = '../';
 
 /*
  * The two sizes the dashboard accepts, verbatim. Geometry is absolute rather
- * than proportional: the small tile is not the marquee shrunk down — at 440px
+ * than proportional: the small tile is not the marquee shrunk down - at 440px
  * a scaled-down marquee would put the wordmark below the size where it can be
  * read in a search result, which is the tile's only job.
  */
@@ -194,7 +194,7 @@ const shouldSave = params.has('save');
 const tile = TILES[key];
 
 if (!tile) {
-  throw new Error(`unknown tile "${key}" — try ${Object.keys(TILES).join(', ')}`);
+  throw new Error(`unknown tile "${key}" - try ${Object.keys(TILES).join(', ')}`);
 }
 
 /* ── compose ── */
@@ -238,7 +238,7 @@ place('mark', {
 
 /*
  * The mark has to be a data: URI. A foreignObject is rasterised from an SVG
- * loaded as an image, which cannot reach out for a file — an <img src="..">
+ * loaded as an image, which cannot reach out for a file - an <img src="..">
  * would simply render as nothing, with no error at all.
  */
 async function inlineIcon(path) {
@@ -291,7 +291,7 @@ window.TILE = (async () => {
 /*
  * The whole chain, not just the render: `window.TILE` resolves as soon as the
  * bytes exist, while saving them is another round trip. Awaiting DONE is what
- * tells a caller the file is actually on disk — reading window.SAVED after
+ * tells a caller the file is actually on disk - reading window.SAVED after
  * awaiting TILE alone is a race, and it lost on the largest image.
  */
 window.DONE = window.TILE.then(async ({ bytes }) => {

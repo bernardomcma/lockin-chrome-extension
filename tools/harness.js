@@ -4,7 +4,7 @@
  * excluded from the zip).
  *
  * Stubs the chrome.* APIs the UI touches, seeds a scenario into fake storage,
- * then loads the real page markup and the real module — so the preview, the
+ * then loads the real page markup and the real module - so the preview, the
  * store screenshots and the promo tiles all show the actual production code,
  * not a mockup, and none of them can drift from the others.
  */
@@ -17,7 +17,7 @@ const ROOT = '../';
  * It means a composed screenshot is not byte-reproducible: the session history
  * is dated relative to this and the running timer counts down from it, so the
  * same shot rasterised a minute later differs. Seeding from a fixed instant
- * instead would be worse — the page code calls the real Date.now(), so a
+ * instead would be worse - the page code calls the real Date.now(), so a
  * frozen past `endTs` renders the session as already expired. Making the
  * images reproducible means faking Date itself in the generator pages, which
  * is not worth it to compare hashes.
@@ -247,7 +247,7 @@ export async function mountPage({ page, scenario, target = document.body }) {
 
   if (page === 'blocked') {
     /*
-     * blocked.js reads its tally from the query string, so rewrite it first —
+     * blocked.js reads its tally from the query string, so rewrite it first -
      * and note that this replaces the whole thing, discarding whatever the
      * calling page was passed. Anything a caller needs from its own URL has to
      * be read before mountPage, not after.

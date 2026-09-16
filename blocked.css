@@ -147,7 +147,7 @@ body::before {
 }
 
 /*
- * The pink field is fixed in both schemes, so the surrounding ink must be too —
+ * The pink field is fixed in both schemes, so the surrounding ink must be too -
  * otherwise dark mode inverts the text on top of it into invisibility.
  */
 @media (prefers-color-scheme: dark) {
