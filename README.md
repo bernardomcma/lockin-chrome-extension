@@ -7,6 +7,12 @@ No build step, no dependencies, no network requests. Manifest V3.
 
 *Também disponível em [português](README.pt-BR.md).*
 
+## Screenshots
+
+| Active Session | Block Page | Summary & Stats |
+| :---: | :---: | :---: |
+| ![Active session](docs/screenshots/lock-in-running.png) | ![Block page](docs/screenshots/lock-in-blocked.png) | ![Summary](docs/screenshots/lock-in-summary.png) |
+
 ## What it does
 
 - You build a list of sites and pick a duration. While the session is running,

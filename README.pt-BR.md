@@ -7,6 +7,12 @@ Sem build, sem dependências, sem requisição de rede. Manifest V3.
 
 *Tradução do [README em inglês](README.md), que é a versão de referência.*
 
+## Capturas de tela
+
+| Sessão Ativa | Página de Bloqueio | Resumo e Estatísticas |
+| :---: | :---: | :---: |
+| ![Sessão ativa](docs/screenshots/lock-in-running.png) | ![Página de bloqueio](docs/screenshots/lock-in-blocked.png) | ![Resumo](docs/screenshots/lock-in-summary.png) |
+
 ## O que ela faz
 
 - Você monta uma lista de sites e escolhe uma duração. Enquanto a sessão está
