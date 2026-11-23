@@ -198,11 +198,17 @@ export function installChromeStub({ page, scenario, locale } = {}) {
           return timer.getSnapshot();
         }
         if (message.action === 'startFocus') {
-          await timer.startFocus(message.minutes, message.blockedSites);
+          await timer.startFocus(message.minutes, message.blockedSites, {
+            strict: message.strict,
+            listMode: message.listMode
+          });
           return { ok: true };
         }
         if (message.action === 'startPomodoro') {
-          await timer.startPomodoro(message.config, message.blockedSites);
+          await timer.startPomodoro(message.config, message.blockedSites, {
+            strict: message.strict,
+            listMode: message.listMode
+          });
           return { ok: true };
         }
         if (message.action === 'pauseFocus') {
