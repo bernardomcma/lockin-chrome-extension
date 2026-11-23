@@ -27,6 +27,11 @@ const PAYLOADS = [
     text: 'https://livepix.gg/bernardomrtns'
   },
   {
+    key: 'KOFI',
+    label: 'Ko-fi',
+    text: 'https://ko-fi.com/bernardomcma'
+  },
+  {
     key: 'BTC',
     label: 'Bitcoin',
     text: 'bc1qx249y9c7zvzv465jpekvp83yd8ztlk5gw0nqh2'

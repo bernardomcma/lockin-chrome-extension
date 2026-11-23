@@ -381,5 +381,8 @@
   },
   "summaryScheduleLabel": {
     "message": "Zeitplan"
+  },
+  "supportOpenKofi": {
+    "message": "Ko-fi öffnen"
   }
 }

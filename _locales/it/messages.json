@@ -381,5 +381,8 @@
   },
   "summaryScheduleLabel": {
     "message": "pianificazione automatica"
+  },
+  "supportOpenKofi": {
+    "message": "apri Ko-fi"
   }
 }

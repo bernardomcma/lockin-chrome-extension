@@ -9,8 +9,8 @@
  * inverted QR is unreadable to most phone cameras, so this is the one place
  * that ignores the theme.
  */
-import { ALL, BTC, LIVEPIX, SOL } from './qr-codes.js';
-import { t } from '../utils/i18n.js';
+import { ALL, BTC, KOFI, LIVEPIX, SOL } from './qr-codes.js';
+import { currentLocale, t } from '../utils/i18n.js';
 
 /** Modules of blank margin around the code. Four is what the standard asks for. */
 const QUIET = 4;
@@ -121,7 +121,7 @@ function methodPanel(entry) {
     const open = document.createElement('button');
     open.type = 'button';
     open.className = 'btn btn--sm';
-    open.textContent = t('supportOpenLivepix');
+    open.textContent = t(entry.openKey);
     open.addEventListener('click', () => {
       void chrome.tabs.create({ url: entry.text });
     });
@@ -142,11 +142,17 @@ function methodPanel(entry) {
   return panel;
 }
 
-const ENTRIES = [
-  { ...LIVEPIX, key: 'livepix', isLink: true },
+const LIVEPIX_ENTRY = { ...LIVEPIX, key: 'livepix', isLink: true, openKey: 'supportOpenLivepix' };
+const KOFI_ENTRY = { ...KOFI, key: 'kofi', isLink: true, openKey: 'supportOpenKofi' };
+const CRYPTO_ENTRIES = [
   { ...BTC, key: 'btc', isLink: false },
   { ...SOL, key: 'sol', isLink: false }
 ];
+
+function visibleEntries() {
+  const primary = currentLocale().code === 'pt_BR' ? LIVEPIX_ENTRY : KOFI_ENTRY;
+  return [primary, ...CRYPTO_ENTRIES];
+}
 
 /**
  * Renders into `container`.
@@ -156,6 +162,7 @@ const ENTRIES = [
  * enough for a phone camera do not fit in a 344px popup.
  */
 export function renderSupport(container, { wide = false } = {}) {
+  const entries = visibleEntries();
   container.textContent = '';
   container.dataset.wide = String(wide);
 
@@ -168,7 +175,7 @@ export function renderSupport(container, { wide = false } = {}) {
   panels.className = 'support__panels';
 
   if (wide) {
-    for (const entry of ENTRIES) panels.append(methodPanel(entry));
+    for (const entry of entries) panels.append(methodPanel(entry));
     container.append(panels);
   } else {
     const tabs = document.createElement('div');
@@ -177,14 +184,14 @@ export function renderSupport(container, { wide = false } = {}) {
 
     const show = key => {
       panels.textContent = '';
-      panels.append(methodPanel(ENTRIES.find(entry => entry.key === key)));
+      panels.append(methodPanel(entries.find(entry => entry.key === key)));
 
       for (const chip of tabs.children) {
         chip.setAttribute('aria-selected', String(chip.dataset.method === key));
       }
     };
 
-    for (const entry of ENTRIES) {
+    for (const entry of entries) {
       const chip = document.createElement('button');
       chip.type = 'button';
       chip.className = 'chip';
@@ -196,7 +203,7 @@ export function renderSupport(container, { wide = false } = {}) {
     }
 
     container.append(tabs, panels);
-    show(ENTRIES[0].key);
+    show(entries[0].key);
   }
 
   const note = document.createElement('p');
@@ -206,6 +213,11 @@ export function renderSupport(container, { wide = false } = {}) {
 }
 
 /** Exposed so tools/check.mjs can verify the addresses that ship. */
-export const SUPPORT_ADDRESSES = { btc: BTC.text, sol: SOL.text, livepix: LIVEPIX.text };
+export const SUPPORT_ADDRESSES = {
+  btc: BTC.text,
+  sol: SOL.text,
+  livepix: LIVEPIX.text,
+  kofi: KOFI.text
+};
 
 export { ALL as SUPPORT_QRS };

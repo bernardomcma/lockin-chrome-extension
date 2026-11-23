@@ -381,5 +381,8 @@
   },
   "summaryScheduleLabel": {
     "message": "自動ロック予定"
+  },
+  "supportOpenKofi": {
+    "message": "Ko-fi を開く"
   }
 }

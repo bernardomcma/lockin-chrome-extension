@@ -381,5 +381,8 @@
   },
   "summaryScheduleLabel": {
     "message": "자동 잠금 일정"
+  },
+  "supportOpenKofi": {
+    "message": "Ko-fi 열기"
   }
 }

@@ -395,7 +395,8 @@ const NAMESPACE_URIS = new Set([
  * what matters is that nothing here is loaded into a page.
  */
 const OUTBOUND_LINKS = new Set([
-  'https://livepix.gg/bernardomrtns'
+  'https://livepix.gg/bernardomrtns',
+  'https://ko-fi.com/bernardomcma'
 ]);
 
 for (const file of [...htmlFiles, ...cssFiles, ...jsFiles]) {
@@ -530,6 +531,7 @@ function base58Length(input) {
  */
 const EXPECTED_ADDRESSES = {
   LIVEPIX: 'https://livepix.gg/bernardomrtns',
+  KOFI: 'https://ko-fi.com/bernardomcma',
   BTC: 'bc1qx249y9c7zvzv465jpekvp83yd8ztlk5gw0nqh2',
   SOL: 'G6Uqy8n3maKwYuDvtF4W4PAsFtg9xtubRopx7z8981RC'
 };

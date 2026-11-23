@@ -382,5 +382,8 @@
   },
   "summaryScheduleLabel": {
     "message": "horario automático"
+  },
+  "supportOpenKofi": {
+    "message": "abrir Ko-fi"
   }
 }

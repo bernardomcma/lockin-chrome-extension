@@ -382,5 +382,8 @@
   },
   "summaryScheduleLabel": {
     "message": "auto-lock schedule"
+  },
+  "supportOpenKofi": {
+    "message": "open Ko-fi"
   }
 }

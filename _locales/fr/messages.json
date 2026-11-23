@@ -381,5 +381,8 @@
   },
   "summaryScheduleLabel": {
     "message": "verrouillage planifié"
+  },
+  "supportOpenKofi": {
+    "message": "ouvrir Ko-fi"
   }
 }

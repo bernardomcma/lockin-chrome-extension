@@ -381,5 +381,8 @@
   },
   "summaryScheduleLabel": {
     "message": "定时自动锁定"
+  },
+  "supportOpenKofi": {
+    "message": "打开 Ko-fi"
   }
 }
