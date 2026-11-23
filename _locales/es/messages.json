@@ -325,5 +325,62 @@
   },
   "pomoSkipBreak": {
     "message": "saltar pausa"
+  },
+  "cmdToggleFocus": {
+    "message": "Iniciar, pausar o reanudar Lock In"
+  },
+  "popupListBlock": {
+    "message": "bloquear"
+  },
+  "popupListAllow": {
+    "message": "solo permitir"
+  },
+  "popupSitesAllowLabel": {
+    "message": "solo estos quedan abiertos"
+  },
+  "popupSitesAllowHint": {
+    "message": "todo lo demás queda cerrado durante el enfoque."
+  },
+  "profile_default": {
+    "message": "general"
+  },
+  "profile_work": {
+    "message": "trabajo"
+  },
+  "profile_study": {
+    "message": "estudio"
+  },
+  "popupStrictLabel": {
+    "message": "estricto"
+  },
+  "popupSoundLabel": {
+    "message": "sonido"
+  },
+  "popupStrictRunningNote": {
+    "message": "modo estricto: bloqueado hasta el final."
+  },
+  "popupGoalShort": {
+    "message": "meta $1"
+  },
+  "statCleanRate": {
+    "message": "sesiones limpias"
+  },
+  "statDailyGoal": {
+    "message": "meta diaria"
+  },
+  "summarySettingsTitle": {
+    "message": "ajustes y copia"
+  },
+  "summaryExport": {
+    "message": "exportar json"
+  },
+  "summaryImport": {
+    "message": "importar json"
+  },
+  "summaryGoalLabel": {
+    "message": "meta diaria"
+  },
+  "summaryScheduleLabel": {
+    "message": "horario automático"
   }
 }

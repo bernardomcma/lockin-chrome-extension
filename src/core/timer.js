@@ -1,7 +1,9 @@
 import {
   DEFAULT_POMODORO_CONFIG,
+  DEFAULT_SCHEDULE,
   FOCUS_ALARM_NAME,
   HISTORY_LIMIT,
+  SCHEDULE_ALARM_NAME,
   STORAGE_KEYS,
   bumpToday,
   getToday,
@@ -79,8 +81,12 @@ export async function updateBadge() {
 export async function getSnapshot() {
   const state = await storageGet([
     STORAGE_KEYS.SITES,
+    STORAGE_KEYS.LIST_MODE,
+    STORAGE_KEYS.PROFILES,
+    STORAGE_KEYS.ACTIVE_PROFILE,
     STORAGE_KEYS.IS_FOCUS,
     STORAGE_KEYS.IS_PAUSED,
+    STORAGE_KEYS.IS_STRICT,
     STORAGE_KEYS.START_TS,
     STORAGE_KEYS.END_TS,
     STORAGE_KEYS.REMAINING_MS,
@@ -88,6 +94,9 @@ export async function getSnapshot() {
     STORAGE_KEYS.MODE,
     STORAGE_KEYS.POMODORO_CONFIG,
     STORAGE_KEYS.POMODORO_STATE,
+    STORAGE_KEYS.SOUND_ENABLED,
+    STORAGE_KEYS.DAILY_GOAL_MIN,
+    STORAGE_KEYS.SCHEDULE,
     STORAGE_KEYS.COUNTERS,
     STORAGE_KEYS.SESSION_HISTORY
   ]);
@@ -95,10 +104,11 @@ export async function getSnapshot() {
   return { ...state, today: await getToday() };
 }
 
-/** Blocked sites currently in force. Empty while idle, paused, or on a Pomodoro break. */
-export async function getActiveSites() {
+/** Active rule set `{ sites, listMode }`. Empty `sites` while idle, paused, or on a Pomodoro break. */
+export async function getActiveRuleSet() {
   const state = await storageGet([
     STORAGE_KEYS.SITES,
+    STORAGE_KEYS.LIST_MODE,
     STORAGE_KEYS.IS_FOCUS,
     STORAGE_KEYS.IS_PAUSED,
     STORAGE_KEYS.POMODORO_STATE
@@ -109,10 +119,19 @@ export async function getActiveSites() {
     || state[STORAGE_KEYS.IS_PAUSED]
     || isBreakPhase(state[STORAGE_KEYS.POMODORO_STATE])
   ) {
-    return [];
+    return { sites: [], listMode: 'block' };
   }
 
-  return state[STORAGE_KEYS.SITES] || [];
+  return {
+    sites: state[STORAGE_KEYS.SITES] || [],
+    listMode: state[STORAGE_KEYS.LIST_MODE] === 'allow' ? 'allow' : 'block'
+  };
+}
+
+/** Blocked sites currently in force. Empty while idle, paused, or on a Pomodoro break. */
+export async function getActiveSites() {
+  const { sites } = await getActiveRuleSet();
+  return sites;
 }
 
 export async function recordAttempt(site) {
@@ -142,26 +161,31 @@ export async function clearCounters() {
   await updateBadge();
 }
 
-async function enforceOpenTabs(sites) {
-  const hits = await findOpenBlockedTabs(sites);
+async function enforceOpenTabs(sites, listMode = 'block') {
+  const hits = await findOpenBlockedTabs(sites, listMode);
   await Promise.all(hits.map(hit => redirectTab(hit.tabId, hit.site)));
   return hits;
 }
 
-async function beginPhase({ minutes, sites, pomodoroState = null, extraStorage = {}, enforce = true }) {
+async function beginPhase({ minutes, sites, listMode, strict, pomodoroState = null, extraStorage = {}, enforce = true }) {
   const startTs = Date.now();
   const endTs = startTs + minutes * 60000;
 
-  const requested = Array.isArray(sites)
-    ? sites
-    : (await storageGet([STORAGE_KEYS.SITES]))[STORAGE_KEYS.SITES] || [];
+  const current = await storageGet([STORAGE_KEYS.SITES, STORAGE_KEYS.LIST_MODE, STORAGE_KEYS.IS_STRICT]);
+  const requested = Array.isArray(sites) ? sites : current[STORAGE_KEYS.SITES] || [];
   const normalized = normalizeSites(requested);
+  const resolvedListMode = listMode === 'allow' || listMode === 'block'
+    ? listMode
+    : (current[STORAGE_KEYS.LIST_MODE] === 'allow' ? 'allow' : 'block');
+  const resolvedStrict = typeof strict === 'boolean' ? strict : Boolean(current[STORAGE_KEYS.IS_STRICT]);
 
   await chrome.alarms.clear(FOCUS_ALARM_NAME);
   await storageSet({
     [STORAGE_KEYS.SITES]: normalized,
+    [STORAGE_KEYS.LIST_MODE]: resolvedListMode,
     [STORAGE_KEYS.IS_FOCUS]: true,
     [STORAGE_KEYS.IS_PAUSED]: false,
+    [STORAGE_KEYS.IS_STRICT]: resolvedStrict,
     [STORAGE_KEYS.START_TS]: startTs,
     [STORAGE_KEYS.END_TS]: endTs,
     [STORAGE_KEYS.REMAINING_MS]: 0,
@@ -172,12 +196,12 @@ async function beginPhase({ minutes, sites, pomodoroState = null, extraStorage =
 
   await chrome.alarms.create(FOCUS_ALARM_NAME, { when: endTs });
   if (enforce) {
-    await enforceOpenTabs(normalized);
+    await enforceOpenTabs(normalized, resolvedListMode);
   }
   await updateBadge();
 }
 
-export async function startFocus(minutes, sites) {
+export async function startFocus(minutes, sites, options = {}) {
   const focusMinutes = Number.isFinite(minutes) && minutes > 0
     ? Math.min(Math.round(minutes), 24 * 60)
     : DEFAULT_FOCUS_MINUTES;
@@ -185,17 +209,21 @@ export async function startFocus(minutes, sites) {
   await beginPhase({
     minutes: focusMinutes,
     sites,
+    listMode: options.listMode,
+    strict: Boolean(options.strict),
     pomodoroState: null,
     extraStorage: { [STORAGE_KEYS.LAST_USED_TIME]: focusMinutes }
   });
 }
 
-export async function startPomodoro(config, sites) {
+export async function startPomodoro(config, sites, options = {}) {
   const normalizedConfig = normalizePomodoroConfig(config);
 
   await beginPhase({
     minutes: normalizedConfig.focusMinutes,
     sites,
+    listMode: options.listMode,
+    strict: Boolean(options.strict),
     pomodoroState: {
       phase: 'focus',
       round: 1,
@@ -253,14 +281,13 @@ async function recordCompletedOrStoppedFocus(state, completed) {
  * stopping early, so the summary can report both honestly.
  */
 export async function stopFocus({ completed = false } = {}) {
-  await chrome.alarms.clear(FOCUS_ALARM_NAME);
-
   const state = await storageGet([
     STORAGE_KEYS.COUNTERS,
     STORAGE_KEYS.START_TS,
     STORAGE_KEYS.END_TS,
     STORAGE_KEYS.IS_FOCUS,
     STORAGE_KEYS.IS_PAUSED,
+    STORAGE_KEYS.IS_STRICT,
     STORAGE_KEYS.REMAINING_MS,
     STORAGE_KEYS.SESSION_HISTORY,
     STORAGE_KEYS.POMODORO_STATE,
@@ -268,12 +295,19 @@ export async function stopFocus({ completed = false } = {}) {
   ]);
 
   if (!state[STORAGE_KEYS.IS_FOCUS]) {
+    await chrome.alarms.clear(FOCUS_ALARM_NAME);
     await updateBadge();
     return null;
   }
 
   const pomo = state[STORAGE_KEYS.POMODORO_STATE] || null;
   const inBreak = isBreakPhase(pomo);
+
+  if (!completed && state[STORAGE_KEYS.IS_STRICT] && !inBreak) {
+    return null;
+  }
+
+  await chrome.alarms.clear(FOCUS_ALARM_NAME);
 
   let session = null;
   if (!inBreak) {
@@ -311,6 +345,7 @@ export async function stopFocus({ completed = false } = {}) {
   await storageSet({
     [STORAGE_KEYS.IS_FOCUS]: false,
     [STORAGE_KEYS.IS_PAUSED]: false,
+    [STORAGE_KEYS.IS_STRICT]: false,
     [STORAGE_KEYS.START_TS]: 0,
     [STORAGE_KEYS.END_TS]: 0,
     [STORAGE_KEYS.REMAINING_MS]: 0,
@@ -348,10 +383,16 @@ export async function pauseFocus() {
   const state = await storageGet([
     STORAGE_KEYS.IS_FOCUS,
     STORAGE_KEYS.IS_PAUSED,
+    STORAGE_KEYS.IS_STRICT,
+    STORAGE_KEYS.POMODORO_STATE,
     STORAGE_KEYS.END_TS
   ]);
 
-  if (!state[STORAGE_KEYS.IS_FOCUS] || state[STORAGE_KEYS.IS_PAUSED]) {
+  if (
+    !state[STORAGE_KEYS.IS_FOCUS]
+    || state[STORAGE_KEYS.IS_PAUSED]
+    || (state[STORAGE_KEYS.IS_STRICT] && !isBreakPhase(state[STORAGE_KEYS.POMODORO_STATE]))
+  ) {
     return;
   }
 
@@ -374,6 +415,7 @@ export async function resumeFocus() {
     STORAGE_KEYS.START_TS,
     STORAGE_KEYS.END_TS,
     STORAGE_KEYS.SITES,
+    STORAGE_KEYS.LIST_MODE,
     STORAGE_KEYS.POMODORO_STATE
   ]);
 
@@ -405,13 +447,113 @@ export async function resumeFocus() {
 
   await chrome.alarms.create(FOCUS_ALARM_NAME, { when: endTs });
   if (!isBreakPhase(state[STORAGE_KEYS.POMODORO_STATE])) {
-    await enforceOpenTabs(state[STORAGE_KEYS.SITES] || []);
+    const mode = state[STORAGE_KEYS.LIST_MODE] === 'allow' ? 'allow' : 'block';
+    await enforceOpenTabs(state[STORAGE_KEYS.SITES] || [], mode);
   }
   await updateBadge();
 }
 
+function parseHHMM(value) {
+  const match = /^(\d{2}):(\d{2})$/.exec(String(value || ''));
+  if (!match) return null;
+  const h = Number(match[1]);
+  const m = Number(match[2]);
+  if (h < 0 || h > 23 || m < 0 || m > 59) return null;
+  return h * 60 + m;
+}
+
+export async function syncScheduleAlarm() {
+  const state = await storageGet([STORAGE_KEYS.SCHEDULE]);
+  const schedule = { ...DEFAULT_SCHEDULE, ...(state[STORAGE_KEYS.SCHEDULE] || {}) };
+
+  await chrome.alarms.clear(SCHEDULE_ALARM_NAME);
+  if (schedule.enabled) {
+    await chrome.alarms.create(SCHEDULE_ALARM_NAME, { periodInMinutes: 1 });
+  }
+}
+
+export async function checkSchedule(nowDate = new Date()) {
+  const state = await storageGet([
+    STORAGE_KEYS.SCHEDULE,
+    STORAGE_KEYS.IS_FOCUS,
+    STORAGE_KEYS.SITES,
+    STORAGE_KEYS.LIST_MODE
+  ]);
+
+  if (state[STORAGE_KEYS.IS_FOCUS]) {
+    return false;
+  }
+
+  const schedule = { ...DEFAULT_SCHEDULE, ...(state[STORAGE_KEYS.SCHEDULE] || {}) };
+  const sites = state[STORAGE_KEYS.SITES] || [];
+
+  if (!schedule.enabled || !sites.length) {
+    return false;
+  }
+
+  const day = nowDate.getDay();
+  if (!Array.isArray(schedule.days) || !schedule.days.includes(day)) {
+    return false;
+  }
+
+  const startMin = parseHHMM(schedule.start);
+  const endMin = parseHHMM(schedule.end);
+  if (startMin === null || endMin === null || endMin <= startMin) {
+    return false;
+  }
+
+  const nowMin = nowDate.getHours() * 60 + nowDate.getMinutes();
+  if (nowMin < startMin || nowMin >= endMin) {
+    return false;
+  }
+
+  const remainingMin = Math.max(1, endMin - nowMin);
+  await startFocus(remainingMin, sites, {
+    listMode: state[STORAGE_KEYS.LIST_MODE]
+  });
+  return true;
+}
+
+export async function toggleFocus() {
+  const state = await storageGet([
+    STORAGE_KEYS.IS_FOCUS,
+    STORAGE_KEYS.IS_PAUSED,
+    STORAGE_KEYS.MODE,
+    STORAGE_KEYS.LAST_USED_TIME,
+    STORAGE_KEYS.POMODORO_CONFIG,
+    STORAGE_KEYS.SITES,
+    STORAGE_KEYS.LIST_MODE
+  ]);
+
+  if (state[STORAGE_KEYS.IS_FOCUS]) {
+    if (state[STORAGE_KEYS.IS_PAUSED]) {
+      await resumeFocus();
+    } else {
+      await pauseFocus();
+    }
+    return;
+  }
+
+  const sites = state[STORAGE_KEYS.SITES] || [];
+  if (!sites.length) {
+    return;
+  }
+
+  if (state[STORAGE_KEYS.MODE] === 'pomodoro') {
+    await startPomodoro(state[STORAGE_KEYS.POMODORO_CONFIG], sites, {
+      listMode: state[STORAGE_KEYS.LIST_MODE]
+    });
+  } else {
+    await startFocus(state[STORAGE_KEYS.LAST_USED_TIME] || DEFAULT_FOCUS_MINUTES, sites, {
+      listMode: state[STORAGE_KEYS.LIST_MODE]
+    });
+  }
+}
+
 /** Re-arms the alarm after a browser restart or service-worker respawn. */
 export async function restoreState() {
+  await syncScheduleAlarm();
+
   const state = await storageGet([
     STORAGE_KEYS.IS_FOCUS,
     STORAGE_KEYS.IS_PAUSED,
@@ -421,6 +563,7 @@ export async function restoreState() {
 
   if (!state[STORAGE_KEYS.IS_FOCUS] || state[STORAGE_KEYS.IS_PAUSED]) {
     await updateBadge();
+    await checkSchedule();
     return;
   }
 

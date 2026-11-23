@@ -83,9 +83,17 @@
 
     <section class="block">
       <div class="block__head">
-        <h2 class="eyebrow" data-i18n="popupSitesLabel"></h2>
-        <span class="eyebrow" id="siteCount"></span>
+        <div class="block__title">
+          <h2 class="eyebrow" id="sitesHeading" data-i18n="popupSitesLabel"></h2>
+          <span class="eyebrow" id="siteCount"></span>
+        </div>
+        <div class="segmented" id="listModeToggle" role="group">
+          <button class="segmented__btn" type="button" data-list-mode="block" aria-pressed="true" data-i18n="popupListBlock"></button>
+          <button class="segmented__btn" type="button" data-list-mode="allow" aria-pressed="false" data-i18n="popupListAllow"></button>
+        </div>
       </div>
+
+      <div class="chips chips--profiles" id="profileChips" role="group" aria-label="Profiles"></div>
 
       <form class="add" id="addForm">
         <input
@@ -110,6 +118,11 @@
       </div>
     </section>
 
+    <div class="options-row">
+      <button class="chip chip--opt" id="strictToggle" type="button" aria-pressed="false" data-i18n="popupStrictLabel"></button>
+      <button class="chip chip--opt" id="soundToggle" type="button" aria-pressed="true" data-i18n="popupSoundLabel"></button>
+    </div>
+
     <button class="btn btn--primary btn--block" id="startBtn" type="button" data-i18n="popupStart"></button>
   </main>
 
@@ -131,6 +144,7 @@
       <button class="btn" id="pauseBtn" type="button"></button>
       <button class="btn btn--danger" id="stopBtn" type="button" data-i18n="popupStop"></button>
     </div>
+    <p class="hint" id="strictNote" data-i18n="popupStrictRunningNote" hidden></p>
 
     <section class="block" id="tallyBlock" hidden>
       <h2 class="eyebrow" data-i18n="popupTallyLabel"></h2>

@@ -142,6 +142,7 @@ function assertNear(actual, expected, toleranceMs, label) {
 const { canonicalizeSite, findBlockedMatch, findCoveringRule, normalizeSites } =
   await import('../src/core/blocking.js');
 const {
+  checkSchedule,
   clearCounters,
   getActiveSites,
   getSnapshot,
@@ -152,7 +153,8 @@ const {
   skipBreak,
   startFocus,
   startPomodoro,
-  stopFocus
+  stopFocus,
+  toggleFocus
 } = await import('../src/core/timer.js');
 const { STORAGE_KEYS, bumpToday, dayKey, getToday } = await import('../src/utils/storage.js');
 const {
@@ -592,6 +594,56 @@ await test('setLocale persists the choice and ignores no-ops', async () => {
   await initI18n();
   assert((await setLocale('es')) === false, 'switching to the active locale is a no-op');
   assert((await setLocale('klingon')) === false, 'unknown locales are refused');
+});
+
+console.log('\nstrict, allowlist, schedule & shortcut');
+
+await test('allow mode allows listed sites and blocks unlisted http(s) sites', () => {
+  const allowed = ['docs.google.com', 'github.com'];
+  assert(findBlockedMatch('https://docs.google.com/document/d/1', allowed, 'allow') === '', 'listed site allowed');
+  assert(findBlockedMatch('https://www.reddit.com/r/all', allowed, 'allow') === 'reddit.com', 'unlisted site blocked');
+  assert(findBlockedMatch('chrome://settings', allowed, 'allow') === '', 'non-http never blocked');
+});
+
+await test('strict mode prevents pause and early stop, but allows natural completion', async () => {
+  await startFocus(25, ['x.com'], { strict: true });
+
+  await pauseFocus();
+  assert(store[STORAGE_KEYS.IS_PAUSED] === false, 'strict mode should ignore pause');
+
+  const early = await stopFocus({ completed: false });
+  assert(early === null, 'strict mode should ignore manual stop');
+  assert(store[STORAGE_KEYS.IS_FOCUS] === true, 'session should still be active');
+
+  advanceMinutes(25);
+  const done = await stopFocus({ completed: true });
+  assert(done && done.completed === true, 'natural completion should still end strict session');
+  assert(store[STORAGE_KEYS.IS_FOCUS] === false, 'session should be inactive after completion');
+});
+
+await test('checkSchedule starts focus when inside scheduled window', async () => {
+  store[STORAGE_KEYS.SITES] = ['youtube.com'];
+  store[STORAGE_KEYS.SCHEDULE] = { enabled: true, start: '09:00', end: '12:00', days: [1] };
+
+  const monday1030 = new Date(2026, 10, 23, 10, 30, 0); // Monday
+  const started = await checkSchedule(monday1030);
+  assert(started === true, 'should start inside window');
+  assert(store[STORAGE_KEYS.IS_FOCUS] === true, 'focus should be active');
+  assert(store[STORAGE_KEYS.LAST_USED_TIME] === 90, `expected 90 min remaining, got ${store[STORAGE_KEYS.LAST_USED_TIME]}`);
+});
+
+await test('toggleFocus starts, pauses, and resumes', async () => {
+  store[STORAGE_KEYS.SITES] = ['x.com'];
+  store[STORAGE_KEYS.LAST_USED_TIME] = 20;
+
+  await toggleFocus();
+  assert(store[STORAGE_KEYS.IS_FOCUS] === true && store[STORAGE_KEYS.IS_PAUSED] === false, 'started');
+
+  await toggleFocus();
+  assert(store[STORAGE_KEYS.IS_PAUSED] === true, 'paused');
+
+  await toggleFocus();
+  assert(store[STORAGE_KEYS.IS_PAUSED] === false, 'resumed');
 });
 
 console.log('\npomodoro');

@@ -24,5 +24,13 @@
     "storage",
     "tabs",
     "alarms"
-  ]
+  ],
+  "commands": {
+    "toggle-focus": {
+      "suggested_key": {
+        "default": "Alt+Shift+L"
+      },
+      "description": "__MSG_cmdToggleFocus__"
+    }
+  }
 }

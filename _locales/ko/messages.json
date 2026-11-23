@@ -324,5 +324,62 @@
   },
   "pomoSkipBreak": {
     "message": "휴식 건너뛰기"
+  },
+  "cmdToggleFocus": {
+    "message": "Lock In 시작, 일시정지 또는 재개"
+  },
+  "popupListBlock": {
+    "message": "차단"
+  },
+  "popupListAllow": {
+    "message": "허용만"
+  },
+  "popupSitesAllowLabel": {
+    "message": "허용할 사이트"
+  },
+  "popupSitesAllowHint": {
+    "message": "집중 중에는 목록 외 모든 사이트가 차단됩니다."
+  },
+  "profile_default": {
+    "message": "기본"
+  },
+  "profile_work": {
+    "message": "업무"
+  },
+  "profile_study": {
+    "message": "공부"
+  },
+  "popupStrictLabel": {
+    "message": "엄격"
+  },
+  "popupSoundLabel": {
+    "message": "소리"
+  },
+  "popupStrictRunningNote": {
+    "message": "엄격 모드: 종료 전까지 해제할 수 없습니다."
+  },
+  "popupGoalShort": {
+    "message": "목표 $1"
+  },
+  "statCleanRate": {
+    "message": "깔끔한 세션"
+  },
+  "statDailyGoal": {
+    "message": "일일 목표"
+  },
+  "summarySettingsTitle": {
+    "message": "설정 및 백업"
+  },
+  "summaryExport": {
+    "message": "JSON 내보내기"
+  },
+  "summaryImport": {
+    "message": "JSON 가져오기"
+  },
+  "summaryGoalLabel": {
+    "message": "일일 목표"
+  },
+  "summaryScheduleLabel": {
+    "message": "자동 잠금 일정"
   }
 }

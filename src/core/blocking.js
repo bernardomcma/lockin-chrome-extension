@@ -116,7 +116,7 @@ function specificity(rule) {
  * `youtube.com` and `youtube.com/shorts` tallies a shorts visit against the
  * shorts rule, which is the one that says something about the habit.
  */
-export function findBlockedMatch(rawUrl, sites) {
+export function findBlockedMatch(rawUrl, sites, mode = 'block') {
   if (!isHttpUrl(rawUrl)) {
     return '';
   }
@@ -126,6 +126,18 @@ export function findBlockedMatch(rawUrl, sites) {
   for (const site of normalizeSites(sites)) {
     if (matches(rawUrl, site) && (!best || specificity(site) > specificity(best))) {
       best = site;
+    }
+  }
+
+  if (mode === 'allow') {
+    if (best) {
+      return '';
+    }
+
+    try {
+      return new URL(rawUrl).hostname.toLowerCase().replace(/^www\./, '');
+    } catch {
+      return '';
     }
   }
 
@@ -209,7 +221,7 @@ export async function redirectTab(tabId, site) {
 }
 
 /** Sweeps every open tab. Used when a session starts or resumes. */
-export async function findOpenBlockedTabs(sites) {
+export async function findOpenBlockedTabs(sites, mode = 'block') {
   const normalized = normalizeSites(sites);
 
   if (!normalized.length) {
@@ -224,7 +236,7 @@ export async function findOpenBlockedTabs(sites) {
       continue;
     }
 
-    const site = findBlockedMatch(tab.url, normalized);
+    const site = findBlockedMatch(tab.url, normalized, mode);
 
     if (site) {
       hits.push({ tabId: tab.id, site });

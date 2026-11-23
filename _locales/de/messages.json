@@ -324,5 +324,62 @@
   },
   "pomoSkipBreak": {
     "message": "Pause überspringen"
+  },
+  "cmdToggleFocus": {
+    "message": "Lock In starten, pausieren oder fortsetzen"
+  },
+  "popupListBlock": {
+    "message": "sperren"
+  },
+  "popupListAllow": {
+    "message": "nur erlauben"
+  },
+  "popupSitesAllowLabel": {
+    "message": "nur diese bleiben offen"
+  },
+  "popupSitesAllowHint": {
+    "message": "alles andere bleibt während des Fokus gesperrt."
+  },
+  "profile_default": {
+    "message": "standard"
+  },
+  "profile_work": {
+    "message": "arbeit"
+  },
+  "profile_study": {
+    "message": "studium"
+  },
+  "popupStrictLabel": {
+    "message": "strikt"
+  },
+  "popupSoundLabel": {
+    "message": "ton"
+  },
+  "popupStrictRunningNote": {
+    "message": "strikter Modus: bis zum Ende gesperrt."
+  },
+  "popupGoalShort": {
+    "message": "Ziel $1"
+  },
+  "statCleanRate": {
+    "message": "saubere Sitzungen"
+  },
+  "statDailyGoal": {
+    "message": "Tagesziel"
+  },
+  "summarySettingsTitle": {
+    "message": "Einstellungen & Backup"
+  },
+  "summaryExport": {
+    "message": "JSON exportieren"
+  },
+  "summaryImport": {
+    "message": "JSON importieren"
+  },
+  "summaryGoalLabel": {
+    "message": "Tagesziel"
+  },
+  "summaryScheduleLabel": {
+    "message": "Zeitplan"
   }
 }

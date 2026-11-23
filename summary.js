@@ -1,4 +1,10 @@
-import { STORAGE_KEYS, dayKey, getDailyStats } from './src/utils/storage.js';
+import {
+  DEFAULT_DAILY_GOAL_MIN,
+  DEFAULT_SCHEDULE,
+  STORAGE_KEYS,
+  dayKey,
+  getDailyStats
+} from './src/utils/storage.js';
 import { applyStaticText, initI18n, localeTag, plural, t } from './src/utils/i18n.js';
 import { renderLanguageTile } from './src/ui/language.js';
 import { renderSupport } from './src/ui/support.js';
@@ -84,11 +90,19 @@ function computeStreak(daily) {
   return streak;
 }
 
-function renderStats(daily, history) {
+function renderStats(daily, history, goalMinutes = DEFAULT_DAILY_GOAL_MIN) {
   const today = daily[dayKey()] || { sessions: 0, focusMs: 0, attempts: 0 };
   const focus = formatFocus(today.focusMs || 0);
   const allTimeMs = Object.values(daily).reduce((sum, day) => sum + (day.focusMs || 0), 0);
   const allTime = formatFocus(allTimeMs);
+
+  const cleanCount = history.filter(s =>
+    Object.values(s.counters || {}).reduce((sum, n) => sum + n, 0) === 0
+  ).length;
+  const cleanPct = history.length ? Math.round((cleanCount / history.length) * 100) : 0;
+  const goalPct = goalMinutes > 0
+    ? Math.min(100, Math.round((minutesOf(today.focusMs || 0) / goalMinutes) * 100))
+    : 0;
 
   const wrap = el('stats');
   wrap.textContent = '';
@@ -97,7 +111,9 @@ function renderStats(daily, history) {
     statBlock({ label: t('statTodaySessions'), value: String(today.sessions || 0) }),
     statBlock({ label: t('statTodayBlocked'), value: String(today.attempts || 0) }),
     statBlock({ label: t('statStreak'), value: String(computeStreak(daily)), unit: t('unitDaysAbbrev') }),
-    statBlock({ label: t('statAllTime'), value: allTime.value, unit: allTime.unit })
+    statBlock({ label: t('statAllTime'), value: allTime.value, unit: allTime.unit }),
+    statBlock({ label: t('statCleanRate'), value: `${cleanPct}%` }),
+    ...(goalMinutes > 0 ? [statBlock({ label: t('statDailyGoal'), value: `${goalPct}%` })] : [])
   );
 
   el('headSub').textContent = history.length
@@ -282,24 +298,132 @@ function renderSessions(history) {
   }
 }
 
+/* ─────────── settings & backup ─────────── */
+
+let currentSchedule = { ...DEFAULT_SCHEDULE };
+
+function weekdayLabel(dayIndex) {
+  // 2026-11-22 is a Sunday (dayIndex 0).
+  const base = new Date(2026, 10, 22 + dayIndex);
+  return base.toLocaleDateString(locale(), { weekday: 'narrow' });
+}
+
+function renderSettings(state) {
+  const goal = state[STORAGE_KEYS.DAILY_GOAL_MIN] ?? DEFAULT_DAILY_GOAL_MIN;
+  el('goalInput').value = String(goal);
+
+  currentSchedule = { ...DEFAULT_SCHEDULE, ...(state[STORAGE_KEYS.SCHEDULE] || {}) };
+  el('scheduleEnabled').checked = Boolean(currentSchedule.enabled);
+  el('scheduleStart').value = currentSchedule.start || '09:00';
+  el('scheduleEnd').value = currentSchedule.end || '12:00';
+
+  const daysWrap = el('scheduleDays');
+  daysWrap.textContent = '';
+  const activeDays = new Set(Array.isArray(currentSchedule.days) ? currentSchedule.days : []);
+
+  for (let d = 0; d < 7; d += 1) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'weekday';
+    btn.dataset.day = String(d);
+    btn.setAttribute('aria-pressed', String(activeDays.has(d)));
+    btn.textContent = weekdayLabel(d);
+    btn.addEventListener('click', () => {
+      if (activeDays.has(d)) activeDays.delete(d);
+      else activeDays.add(d);
+      currentSchedule.days = [...activeDays].sort((a, b) => a - b);
+      void persistSchedule();
+      renderSettings({ ...state, [STORAGE_KEYS.SCHEDULE]: currentSchedule });
+    });
+    daysWrap.append(btn);
+  }
+}
+
+async function persistSchedule() {
+  await chrome.storage.local.set({ [STORAGE_KEYS.SCHEDULE]: currentSchedule });
+  await chrome.runtime.sendMessage({ action: 'syncSchedule' }).catch(() => null);
+}
+
 /* ─────────── load ─────────── */
 
 async function refresh() {
   const [state, daily] = await Promise.all([
-    chrome.storage.local.get([STORAGE_KEYS.COUNTERS, STORAGE_KEYS.SESSION_HISTORY]),
+    chrome.storage.local.get([
+      STORAGE_KEYS.COUNTERS,
+      STORAGE_KEYS.SESSION_HISTORY,
+      STORAGE_KEYS.DAILY_GOAL_MIN,
+      STORAGE_KEYS.SCHEDULE
+    ]),
     getDailyStats()
   ]);
 
   const counters = state[STORAGE_KEYS.COUNTERS] || {};
   const history = state[STORAGE_KEYS.SESSION_HISTORY] || [];
+  const goalMinutes = state[STORAGE_KEYS.DAILY_GOAL_MIN] ?? DEFAULT_DAILY_GOAL_MIN;
 
-  renderStats(daily, history);
+  renderStats(daily, history, goalMinutes);
   renderGraph(daily);
   renderRanks(counters);
   renderSessions(history);
+  renderSettings(state);
 }
 
 function wire() {
+  el('goalInput').addEventListener('change', () => {
+    const parsed = Number.parseInt(el('goalInput').value, 10);
+    const goal = Number.isFinite(parsed) && parsed >= 0 ? Math.min(parsed, 1440) : DEFAULT_DAILY_GOAL_MIN;
+    void chrome.storage.local.set({ [STORAGE_KEYS.DAILY_GOAL_MIN]: goal });
+  });
+
+  el('scheduleEnabled').addEventListener('change', () => {
+    currentSchedule.enabled = el('scheduleEnabled').checked;
+    void persistSchedule();
+  });
+
+  el('scheduleStart').addEventListener('change', () => {
+    currentSchedule.start = el('scheduleStart').value || '09:00';
+    void persistSchedule();
+  });
+
+  el('scheduleEnd').addEventListener('change', () => {
+    currentSchedule.end = el('scheduleEnd').value || '12:00';
+    void persistSchedule();
+  });
+
+  el('exportBtn').addEventListener('click', async () => {
+    const all = await chrome.storage.local.get(null);
+    const blob = new Blob([JSON.stringify(all, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `lockin-backup-${dayKey()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  el('importBtn').addEventListener('click', () => el('importInput').click());
+
+  el('importInput').addEventListener('change', async event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        const allowed = new Set(Object.values(STORAGE_KEYS));
+        const safe = {};
+        for (const [k, v] of Object.entries(parsed)) {
+          if (allowed.has(k)) safe[k] = v;
+        }
+        await chrome.storage.local.set(safe);
+        await chrome.runtime.sendMessage({ action: 'syncSchedule' }).catch(() => null);
+        await refresh();
+      }
+    } catch {
+      // Ignore malformed JSON files.
+    } finally {
+      event.target.value = '';
+    }
+  });
   el('clearCountersBtn').addEventListener('click', async () => {
     await chrome.runtime.sendMessage({ action: 'clearCounters' }).catch(() => null);
     await refresh();

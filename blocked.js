@@ -48,13 +48,15 @@ async function loadSession() {
     STORAGE_KEYS.POMODORO_STATE
   ]);
 
-  const phase = state[STORAGE_KEYS.POMODORO_STATE]?.phase;
+  const pomo = state[STORAGE_KEYS.POMODORO_STATE] || null;
+  const phase = pomo?.phase;
   const isBreak = phase === 'shortBreak' || phase === 'longBreak';
 
   session = {
     isFocusing: Boolean(state[STORAGE_KEYS.IS_FOCUS]),
     isPaused: Boolean(state[STORAGE_KEYS.IS_PAUSED]),
     isBreak,
+    pomo,
     endTs: state[STORAGE_KEYS.END_TS] || 0,
     remainingMs: state[STORAGE_KEYS.REMAINING_MS] || 0
   };
@@ -76,9 +78,13 @@ function remainingMs() {
 function render() {
   const over = !session?.isFocusing || session.isBreak;
 
-  el('stateLabel').textContent = over
+  const baseState = over
     ? t('popupIdleLabel')
     : t(session.isPaused ? 'popupPausedLabel' : 'popupRunningLabel');
+
+  el('stateLabel').textContent = !over && session?.pomo
+    ? `${baseState} · ${session.pomo.round}/${session.pomo.rounds}`
+    : baseState;
 
   el('clockline').hidden = over || session.isPaused;
   el('tally').textContent = over ? t('blockedSessionOver') : tallyText();

@@ -1,8 +1,9 @@
-import { FOCUS_ALARM_NAME } from '../utils/storage.js';
+import { FOCUS_ALARM_NAME, SCHEDULE_ALARM_NAME } from '../utils/storage.js';
 import { buildBlockedPageUrl, findBlockedMatch } from '../core/blocking.js';
 import {
+  checkSchedule,
   clearCounters,
-  getActiveSites,
+  getActiveRuleSet,
   getSnapshot,
   pauseFocus,
   recordAttempt,
@@ -12,6 +13,8 @@ import {
   startFocus,
   startPomodoro,
   stopFocus,
+  syncScheduleAlarm,
+  toggleFocus,
   updateBadge
 } from '../core/timer.js';
 
@@ -53,13 +56,13 @@ async function enforce(tabId, rawUrl) {
     return;
   }
 
-  const sites = await getActiveSites();
+  const { sites, listMode } = await getActiveRuleSet();
 
   if (!sites.length) {
     return;
   }
 
-  const site = findBlockedMatch(rawUrl, sites);
+  const site = findBlockedMatch(rawUrl, sites, listMode);
 
   if (!site || alreadyHandled(tabId, site)) {
     return;
@@ -117,16 +120,25 @@ chrome.runtime.onStartup.addListener(() => {
 chrome.alarms.onAlarm.addListener(alarm => {
   if (alarm.name === FOCUS_ALARM_NAME) {
     void stopFocus({ completed: true });
+  } else if (alarm.name === SCHEDULE_ALARM_NAME) {
+    void checkSchedule();
+  }
+});
+
+chrome.commands?.onCommand?.addListener(command => {
+  if (command === 'toggle-focus') {
+    void toggleFocus();
   }
 });
 
 const handlers = {
-  startFocus: msg => startFocus(msg.minutes, msg.blockedSites),
-  startPomodoro: msg => startPomodoro(msg.config, msg.blockedSites),
+  startFocus: msg => startFocus(msg.minutes, msg.blockedSites, { strict: msg.strict, listMode: msg.listMode }),
+  startPomodoro: msg => startPomodoro(msg.config, msg.blockedSites, { strict: msg.strict, listMode: msg.listMode }),
   skipBreak: () => skipBreak(),
   stopFocus: () => stopFocus({ completed: false }),
   pauseFocus: () => pauseFocus(),
   resumeFocus: () => resumeFocus(),
+  syncSchedule: () => syncScheduleAlarm().then(() => checkSchedule()),
   clearCounters: () => clearCounters(),
   getStatus: () => getSnapshot()
 };

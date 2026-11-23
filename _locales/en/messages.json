@@ -325,5 +325,62 @@
   },
   "pomoSkipBreak": {
     "message": "skip break"
+  },
+  "cmdToggleFocus": {
+    "message": "Start, pause, or resume Lock In"
+  },
+  "popupListBlock": {
+    "message": "block"
+  },
+  "popupListAllow": {
+    "message": "allow only"
+  },
+  "popupSitesAllowLabel": {
+    "message": "only these stay open"
+  },
+  "popupSitesAllowHint": {
+    "message": "everything else stays shut while locked."
+  },
+  "profile_default": {
+    "message": "default"
+  },
+  "profile_work": {
+    "message": "work"
+  },
+  "profile_study": {
+    "message": "study"
+  },
+  "popupStrictLabel": {
+    "message": "strict"
+  },
+  "popupSoundLabel": {
+    "message": "sound"
+  },
+  "popupStrictRunningNote": {
+    "message": "strict mode: locked until timer ends."
+  },
+  "popupGoalShort": {
+    "message": "goal $1"
+  },
+  "statCleanRate": {
+    "message": "clean sessions"
+  },
+  "statDailyGoal": {
+    "message": "daily goal"
+  },
+  "summarySettingsTitle": {
+    "message": "settings & backup"
+  },
+  "summaryExport": {
+    "message": "export json"
+  },
+  "summaryImport": {
+    "message": "import json"
+  },
+  "summaryGoalLabel": {
+    "message": "daily goal"
+  },
+  "summaryScheduleLabel": {
+    "message": "auto-lock schedule"
   }
 }

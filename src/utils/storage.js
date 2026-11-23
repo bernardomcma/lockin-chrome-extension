@@ -1,7 +1,11 @@
 export const STORAGE_KEYS = {
   SITES: 'blockedSites',
+  LIST_MODE: 'listMode',
+  PROFILES: 'siteProfiles',
+  ACTIVE_PROFILE: 'activeProfile',
   IS_FOCUS: 'isFocusing',
   IS_PAUSED: 'isPaused',
+  IS_STRICT: 'isStrict',
   START_TS: 'focusStartTs',
   END_TS: 'focusEndTs',
   REMAINING_MS: 'remainingMs',
@@ -9,6 +13,9 @@ export const STORAGE_KEYS = {
   MODE: 'focusMode',
   POMODORO_CONFIG: 'pomodoroConfig',
   POMODORO_STATE: 'pomodoroState',
+  SOUND_ENABLED: 'soundEnabled',
+  DAILY_GOAL_MIN: 'dailyGoalMinutes',
+  SCHEDULE: 'focusSchedule',
   COUNTERS: 'attemptCounters',
   SESSION_HISTORY: 'sessionHistory',
   DAILY_STATS: 'dailyStats',
@@ -21,6 +28,17 @@ export const DEFAULT_POMODORO_CONFIG = {
   longBreakMinutes: 15,
   rounds: 4
 };
+
+export const DEFAULT_DAILY_GOAL_MIN = 120;
+
+export const DEFAULT_SCHEDULE = {
+  enabled: false,
+  start: '09:00',
+  end: '12:00',
+  days: [1, 2, 3, 4, 5]
+};
+
+export const SCHEDULE_ALARM_NAME = 'scheduleTick';
 
 export const FOCUS_ALARM_NAME = 'focusEnd';
 

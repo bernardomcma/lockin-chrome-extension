@@ -324,5 +324,62 @@
   },
   "pomoSkipBreak": {
     "message": "跳过休息"
+  },
+  "cmdToggleFocus": {
+    "message": "启动、暂停或继续 Lock In"
+  },
+  "popupListBlock": {
+    "message": "屏蔽"
+  },
+  "popupListAllow": {
+    "message": "仅允许"
+  },
+  "popupSitesAllowLabel": {
+    "message": "仅允许访问"
+  },
+  "popupSitesAllowHint": {
+    "message": "专注期间除列表外的所有网站都将被屏蔽。"
+  },
+  "profile_default": {
+    "message": "默认"
+  },
+  "profile_work": {
+    "message": "工作"
+  },
+  "profile_study": {
+    "message": "学习"
+  },
+  "popupStrictLabel": {
+    "message": "严格"
+  },
+  "popupSoundLabel": {
+    "message": "提示音"
+  },
+  "popupStrictRunningNote": {
+    "message": "严格模式：计时结束前无法解锁。"
+  },
+  "popupGoalShort": {
+    "message": "目标 $1"
+  },
+  "statCleanRate": {
+    "message": "零分心率"
+  },
+  "statDailyGoal": {
+    "message": "每日目标"
+  },
+  "summarySettingsTitle": {
+    "message": "设置与备份"
+  },
+  "summaryExport": {
+    "message": "导出 JSON"
+  },
+  "summaryImport": {
+    "message": "导入 JSON"
+  },
+  "summaryGoalLabel": {
+    "message": "每日目标"
+  },
+  "summaryScheduleLabel": {
+    "message": "定时自动锁定"
   }
 }

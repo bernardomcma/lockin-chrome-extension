@@ -49,6 +49,40 @@
       <p class="empty" id="sessionsEmpty" data-i18n="summaryNoHistory" hidden></p>
     </section>
 
+    <section class="panel card" id="settingsCard">
+      <div class="card__head">
+        <h2 class="card__title" data-i18n="summarySettingsTitle"></h2>
+        <div class="backup-actions">
+          <button class="btn btn--sm" id="exportBtn" type="button" data-i18n="summaryExport"></button>
+          <button class="btn btn--sm" id="importBtn" type="button" data-i18n="summaryImport"></button>
+          <input id="importInput" type="file" accept="application/json,.json" hidden />
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <label class="setting">
+          <span class="eyebrow" data-i18n="summaryGoalLabel"></span>
+          <span class="setting__row">
+            <input class="field setting__num" id="goalInput" type="number" min="0" max="1440" step="5" inputmode="numeric" />
+            <span class="eyebrow" data-i18n="unitMinAbbrev"></span>
+          </span>
+        </label>
+
+        <div class="setting">
+          <label class="setting__check">
+            <input id="scheduleEnabled" type="checkbox" />
+            <span class="eyebrow" data-i18n="summaryScheduleLabel"></span>
+          </label>
+          <div class="setting__row">
+            <input class="field setting__time" id="scheduleStart" type="time" />
+            <span class="eyebrow">–</span>
+            <input class="field setting__time" id="scheduleEnd" type="time" />
+          </div>
+          <div class="weekdays" id="scheduleDays" role="group"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="panel card" id="supportCard">
       <div class="card__head">
         <h2 class="card__title" data-i18n="summarySupportTitle"></h2>

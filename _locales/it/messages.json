@@ -324,5 +324,62 @@
   },
   "pomoSkipBreak": {
     "message": "salta pausa"
+  },
+  "cmdToggleFocus": {
+    "message": "Avvia, metti in pausa o riprendi Lock In"
+  },
+  "popupListBlock": {
+    "message": "blocca"
+  },
+  "popupListAllow": {
+    "message": "consenti solo"
+  },
+  "popupSitesAllowLabel": {
+    "message": "solo questi restano aperti"
+  },
+  "popupSitesAllowHint": {
+    "message": "tutto il resto resta bloccato durante il focus."
+  },
+  "profile_default": {
+    "message": "predefinito"
+  },
+  "profile_work": {
+    "message": "lavoro"
+  },
+  "profile_study": {
+    "message": "studio"
+  },
+  "popupStrictLabel": {
+    "message": "rigido"
+  },
+  "popupSoundLabel": {
+    "message": "suono"
+  },
+  "popupStrictRunningNote": {
+    "message": "modalità rigida: bloccato fino alla fine."
+  },
+  "popupGoalShort": {
+    "message": "obiettivo $1"
+  },
+  "statCleanRate": {
+    "message": "sessioni pulite"
+  },
+  "statDailyGoal": {
+    "message": "obiettivo oggi"
+  },
+  "summarySettingsTitle": {
+    "message": "impostazioni e backup"
+  },
+  "summaryExport": {
+    "message": "esporta json"
+  },
+  "summaryImport": {
+    "message": "importa json"
+  },
+  "summaryGoalLabel": {
+    "message": "obiettivo giornaliero"
+  },
+  "summaryScheduleLabel": {
+    "message": "pianificazione automatica"
   }
 }

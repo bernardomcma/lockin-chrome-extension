@@ -325,5 +325,62 @@
   },
   "pomoSkipBreak": {
     "message": "pular pausa"
+  },
+  "cmdToggleFocus": {
+    "message": "Iniciar, pausar ou retomar o Lock In"
+  },
+  "popupListBlock": {
+    "message": "bloquear"
+  },
+  "popupListAllow": {
+    "message": "só permitir"
+  },
+  "popupSitesAllowLabel": {
+    "message": "só estes ficam abertos"
+  },
+  "popupSitesAllowHint": {
+    "message": "todo o resto fica trancado durante o foco."
+  },
+  "profile_default": {
+    "message": "padrão"
+  },
+  "profile_work": {
+    "message": "trabalho"
+  },
+  "profile_study": {
+    "message": "estudos"
+  },
+  "popupStrictLabel": {
+    "message": "restrito"
+  },
+  "popupSoundLabel": {
+    "message": "som"
+  },
+  "popupStrictRunningNote": {
+    "message": "modo restrito: trancado até o fim."
+  },
+  "popupGoalShort": {
+    "message": "meta $1"
+  },
+  "statCleanRate": {
+    "message": "sessões limpas"
+  },
+  "statDailyGoal": {
+    "message": "meta diária"
+  },
+  "summarySettingsTitle": {
+    "message": "configurações & backup"
+  },
+  "summaryExport": {
+    "message": "exportar json"
+  },
+  "summaryImport": {
+    "message": "importar json"
+  },
+  "summaryGoalLabel": {
+    "message": "meta diária"
+  },
+  "summaryScheduleLabel": {
+    "message": "agendamento automático"
   }
 }

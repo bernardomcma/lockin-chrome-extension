@@ -1,4 +1,4 @@
-import { DEFAULT_POMODORO_CONFIG, STORAGE_KEYS } from './src/utils/storage.js';
+import { DEFAULT_DAILY_GOAL_MIN, DEFAULT_POMODORO_CONFIG, STORAGE_KEYS } from './src/utils/storage.js';
 import { canonicalizeSite, findCoveringRule, normalizeSites } from './src/core/blocking.js';
 import {
   applyStaticText,
@@ -8,6 +8,7 @@ import {
   plural,
   t
 } from './src/utils/i18n.js';
+import { playChime } from './src/utils/sound.js';
 import { renderLanguageTile } from './src/ui/language.js';
 import { renderSupport } from './src/ui/support.js';
 
@@ -20,11 +21,18 @@ const PRESETS = [
   { key: 'presetForums', sites: ['reddit.com', 'news.ycombinator.com'] }
 ];
 
+const PROFILE_KEYS = ['default', 'work', 'study'];
+
 const el = id => document.getElementById(id);
 
 /** Draft list of sites. Committed to storage when a session starts. */
 let draftSites = [];
 let activeMode = 'timer';
+let activeListMode = 'block';
+let activeProfile = 'default';
+let profiles = {};
+let strictMode = false;
+let soundEnabled = true;
 let tickHandle = null;
 
 /* ─────────── toast ─────────── */
@@ -89,7 +97,54 @@ function renderSites() {
 }
 
 async function persistSites() {
-  await chrome.storage.local.set({ [STORAGE_KEYS.SITES]: draftSites });
+  profiles[activeProfile] = [...draftSites];
+  await chrome.storage.local.set({
+    [STORAGE_KEYS.SITES]: draftSites,
+    [STORAGE_KEYS.PROFILES]: profiles,
+    [STORAGE_KEYS.ACTIVE_PROFILE]: activeProfile
+  });
+}
+
+function setListMode(mode) {
+  activeListMode = mode === 'allow' ? 'allow' : 'block';
+
+  for (const btn of document.querySelectorAll('#listModeToggle [data-list-mode]')) {
+    btn.setAttribute('aria-pressed', String(btn.dataset.listMode === activeListMode));
+  }
+
+  el('sitesHeading').textContent = t(
+    activeListMode === 'allow' ? 'popupSitesAllowLabel' : 'popupSitesLabel'
+  );
+  el('addHint').textContent = t(
+    activeListMode === 'allow' ? 'popupSitesAllowHint' : 'popupSitesHint'
+  );
+}
+
+function renderProfiles() {
+  const wrap = el('profileChips');
+  wrap.textContent = '';
+
+  for (const key of PROFILE_KEYS) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip';
+    btn.dataset.profile = key;
+    btn.setAttribute('aria-pressed', String(key === activeProfile));
+    btn.textContent = t(`profile_${key}`);
+    btn.addEventListener('click', () => {
+      activeProfile = key;
+      draftSites = normalizeSites(profiles[key] || []);
+      void persistSites();
+      renderProfiles();
+      renderSites();
+    });
+    wrap.append(btn);
+  }
+}
+
+function renderOptionToggles() {
+  el('strictToggle').setAttribute('aria-pressed', String(strictMode));
+  el('soundToggle').setAttribute('aria-pressed', String(soundEnabled));
 }
 
 function addSites(candidates) {
@@ -345,8 +400,12 @@ function renderRunning(snapshot) {
 
   el('skipBtn').hidden = !inBreak;
 
+  const lockedControls = Boolean(snapshot[STORAGE_KEYS.IS_STRICT]) && !inBreak;
   const pauseBtn = el('pauseBtn');
   pauseBtn.textContent = isPaused ? t('popupResume') : t('popupPause');
+  pauseBtn.disabled = lockedControls;
+  el('stopBtn').disabled = lockedControls;
+  el('strictNote').hidden = !lockedControls;
 
   el('stateDot').dataset.state = isPaused ? 'paused' : (inBreak ? 'break' : 'on');
   el('stateLabel').textContent = isPaused
@@ -361,22 +420,32 @@ function renderIdle(snapshot) {
   el('stateLabel').textContent = t('popupIdleLabel');
 
   setMode(snapshot[STORAGE_KEYS.MODE] || 'timer');
+  setListMode(snapshot[STORAGE_KEYS.LIST_MODE] || 'block');
   setDuration(snapshot[STORAGE_KEYS.LAST_USED_TIME] || DEFAULT_MINUTES);
   applyPomodoroConfig(snapshot[STORAGE_KEYS.POMODORO_CONFIG]);
+  renderProfiles();
+  renderOptionToggles();
   renderSites();
 }
 
-function renderToday(today) {
+function renderToday(today, goalMinutes = DEFAULT_DAILY_GOAL_MIN) {
   const stats = today || { sessions: 0, focusMs: 0, attempts: 0 };
 
-  el('todayLine').textContent = stats.sessions || stats.attempts
-    ? t(
-        'popupToday',
-        plural('countSessions', stats.sessions),
-        formatDuration(stats.focusMs),
-        plural('countBlocked', stats.attempts)
-      )
-    : t('popupTodayEmpty');
+  if (!stats.sessions && !stats.attempts) {
+    el('todayLine').textContent = t('popupTodayEmpty');
+    return;
+  }
+
+  const base = t(
+    'popupToday',
+    plural('countSessions', stats.sessions),
+    formatDuration(stats.focusMs),
+    plural('countBlocked', stats.attempts)
+  );
+
+  el('todayLine').textContent = goalMinutes > 0
+    ? `${base} · ${t('popupGoalShort', formatDuration(goalMinutes * 60000))}`
+    : base;
 }
 
 function render(snapshot) {
@@ -393,7 +462,7 @@ function render(snapshot) {
     renderIdle(snapshot);
   }
 
-  renderToday(snapshot.today);
+  renderToday(snapshot.today, snapshot[STORAGE_KEYS.DAILY_GOAL_MIN] ?? DEFAULT_DAILY_GOAL_MIN);
   scheduleTick(snapshot);
 }
 
@@ -420,6 +489,11 @@ function scheduleTick(snapshot) {
     if (endTs - Date.now() <= 0) {
       clearInterval(tickHandle);
       tickHandle = null;
+      if (soundEnabled) {
+        const pomo = lastSnapshot[STORAGE_KEYS.POMODORO_STATE];
+        const inBreak = pomo?.phase === 'shortBreak' || pomo?.phase === 'longBreak';
+        playChime(inBreak ? 'done' : 'break');
+      }
       void refresh();
       return;
     }
@@ -445,8 +519,29 @@ async function refresh() {
     return;
   }
 
+  soundEnabled = snapshot[STORAGE_KEYS.SOUND_ENABLED] !== false;
+  strictMode = Boolean(snapshot[STORAGE_KEYS.IS_STRICT]);
+
   if (!snapshot[STORAGE_KEYS.IS_FOCUS]) {
-    draftSites = normalizeSites(snapshot[STORAGE_KEYS.SITES] || []);
+    const storedSites = normalizeSites(snapshot[STORAGE_KEYS.SITES] || []);
+    const storedProfiles = snapshot[STORAGE_KEYS.PROFILES];
+    activeProfile = PROFILE_KEYS.includes(snapshot[STORAGE_KEYS.ACTIVE_PROFILE])
+      ? snapshot[STORAGE_KEYS.ACTIVE_PROFILE]
+      : 'default';
+
+    profiles = storedProfiles && typeof storedProfiles === 'object'
+      ? {
+          default: normalizeSites(storedProfiles.default || storedSites),
+          work: normalizeSites(storedProfiles.work || ['youtube.com', 'x.com', 'instagram.com', 'reddit.com']),
+          study: normalizeSites(storedProfiles.study || ['tiktok.com', 'instagram.com', 'twitch.tv'])
+        }
+      : {
+          default: storedSites,
+          work: ['youtube.com', 'x.com', 'instagram.com', 'reddit.com'],
+          study: ['tiktok.com', 'instagram.com', 'twitch.tv']
+        };
+
+    draftSites = profiles[activeProfile] || storedSites;
   }
 
   render(snapshot);
@@ -502,16 +597,42 @@ function wire() {
     el(id).addEventListener('change', persistPomodoroConfig);
   }
 
+  el('listModeToggle').addEventListener('click', event => {
+    const btn = event.target.closest('[data-list-mode]');
+    if (!btn) return;
+    setListMode(btn.dataset.listMode);
+    void chrome.storage.local.set({ [STORAGE_KEYS.LIST_MODE]: activeListMode });
+  });
+
+  el('strictToggle').addEventListener('click', () => {
+    strictMode = !strictMode;
+    renderOptionToggles();
+    void chrome.storage.local.set({ [STORAGE_KEYS.IS_STRICT]: strictMode });
+  });
+
+  el('soundToggle').addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    renderOptionToggles();
+    void chrome.storage.local.set({ [STORAGE_KEYS.SOUND_ENABLED]: soundEnabled });
+    if (soundEnabled) playChime('done');
+  });
+
   el('startBtn').addEventListener('click', async () => {
     if (!draftSites.length) {
       toast(t('popupSitesEmpty'));
       return;
     }
 
+    const opts = {
+      blockedSites: draftSites,
+      strict: strictMode,
+      listMode: activeListMode
+    };
+
     if (activeMode === 'pomodoro') {
-      await send('startPomodoro', { config: readPomodoroConfig(), blockedSites: draftSites });
+      await send('startPomodoro', { config: readPomodoroConfig(), ...opts });
     } else {
-      await send('startFocus', { minutes: selectedMinutes(), blockedSites: draftSites });
+      await send('startFocus', { minutes: selectedMinutes(), ...opts });
     }
     await refresh();
   });

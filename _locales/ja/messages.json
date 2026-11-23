@@ -324,5 +324,62 @@
   },
   "pomoSkipBreak": {
     "message": "休憩をスキップ"
+  },
+  "cmdToggleFocus": {
+    "message": "Lock In を開始・一時停止・再開"
+  },
+  "popupListBlock": {
+    "message": "ブロック"
+  },
+  "popupListAllow": {
+    "message": "許可のみ"
+  },
+  "popupSitesAllowLabel": {
+    "message": "許可するサイト"
+  },
+  "popupSitesAllowHint": {
+    "message": "集中中はリスト以外のサイトがすべてブロックされます。"
+  },
+  "profile_default": {
+    "message": "標準"
+  },
+  "profile_work": {
+    "message": "仕事"
+  },
+  "profile_study": {
+    "message": "勉強"
+  },
+  "popupStrictLabel": {
+    "message": "厳格"
+  },
+  "popupSoundLabel": {
+    "message": "通知音"
+  },
+  "popupStrictRunningNote": {
+    "message": "厳格モード：終了まで解除できません。"
+  },
+  "popupGoalShort": {
+    "message": "目標 $1"
+  },
+  "statCleanRate": {
+    "message": "クリーン率"
+  },
+  "statDailyGoal": {
+    "message": "今日の目標"
+  },
+  "summarySettingsTitle": {
+    "message": "設定とバックアップ"
+  },
+  "summaryExport": {
+    "message": "JSON書き出し"
+  },
+  "summaryImport": {
+    "message": "JSON読み込み"
+  },
+  "summaryGoalLabel": {
+    "message": "1日の目標"
+  },
+  "summaryScheduleLabel": {
+    "message": "自動ロック予定"
   }
 }

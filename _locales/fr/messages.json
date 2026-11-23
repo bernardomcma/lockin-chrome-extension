@@ -324,5 +324,62 @@
   },
   "pomoSkipBreak": {
     "message": "passer la pause"
+  },
+  "cmdToggleFocus": {
+    "message": "Démarrer, mettre en pause ou reprendre Lock In"
+  },
+  "popupListBlock": {
+    "message": "bloquer"
+  },
+  "popupListAllow": {
+    "message": "autoriser seul."
+  },
+  "popupSitesAllowLabel": {
+    "message": "seuls ceux-ci restent ouverts"
+  },
+  "popupSitesAllowHint": {
+    "message": "tout le reste reste bloqué pendant le focus."
+  },
+  "profile_default": {
+    "message": "défaut"
+  },
+  "profile_work": {
+    "message": "travail"
+  },
+  "profile_study": {
+    "message": "études"
+  },
+  "popupStrictLabel": {
+    "message": "strict"
+  },
+  "popupSoundLabel": {
+    "message": "son"
+  },
+  "popupStrictRunningNote": {
+    "message": "mode strict : verrouillé jusqu’à la fin."
+  },
+  "popupGoalShort": {
+    "message": "objectif $1"
+  },
+  "statCleanRate": {
+    "message": "sessions nettes"
+  },
+  "statDailyGoal": {
+    "message": "objectif du jour"
+  },
+  "summarySettingsTitle": {
+    "message": "paramètres & sauvegarde"
+  },
+  "summaryExport": {
+    "message": "exporter json"
+  },
+  "summaryImport": {
+    "message": "importer json"
+  },
+  "summaryGoalLabel": {
+    "message": "objectif quotidien"
+  },
+  "summaryScheduleLabel": {
+    "message": "verrouillage planifié"
   }
 }
