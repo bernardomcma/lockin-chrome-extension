@@ -1,7 +1,7 @@
 {
   "name": "lock-in-chrome-extension",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Chrome extension that locks distracting sites for a set time and counts every attempt to sneak back.",
   "type": "module",
   "scripts": {
