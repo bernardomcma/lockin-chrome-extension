@@ -143,12 +143,15 @@ const { canonicalizeSite, findBlockedMatch, findCoveringRule, normalizeSites } =
   await import('../src/core/blocking.js');
 const {
   clearCounters,
+  getActiveSites,
   getSnapshot,
   pauseFocus,
   recordAttempt,
   restoreState,
   resumeFocus,
+  skipBreak,
   startFocus,
+  startPomodoro,
   stopFocus
 } = await import('../src/core/timer.js');
 const { STORAGE_KEYS, bumpToday, dayKey, getToday } = await import('../src/utils/storage.js');
@@ -589,6 +592,85 @@ await test('setLocale persists the choice and ignores no-ops', async () => {
   await initI18n();
   assert((await setLocale('es')) === false, 'switching to the active locale is a no-op');
   assert((await setLocale('klingon')) === false, 'unknown locales are refused');
+});
+
+console.log('\npomodoro');
+
+await test('startPomodoro starts round 1 in focus and sets badge ON', async () => {
+  await startPomodoro({ focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15, rounds: 4 }, ['reddit.com']);
+
+  assert(store[STORAGE_KEYS.IS_FOCUS] === true, 'should be active');
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'focus', 'should start in focus phase');
+  assert(store[STORAGE_KEYS.POMODORO_STATE].round === 1, 'should start on round 1');
+  assert(badge === 'ON', `expected badge ON, got "${badge}"`);
+  assert((await getActiveSites()).length === 1, 'sites should be blocked during focus');
+});
+
+await test('completing a focus round records focus and transitions to shortBreak', async () => {
+  await startPomodoro({ focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15, rounds: 4 }, ['reddit.com']);
+  advanceMinutes(25);
+  const session = await stopFocus({ completed: true });
+
+  assert(session && session.completed === true, 'focus session should be recorded');
+  assertNear(session.focusedMs, 25 * 60000, 1000, 'recorded focus');
+  assert(store[STORAGE_KEYS.IS_FOCUS] === true, 'pomodoro should stay active during break');
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'shortBreak', 'should transition to shortBreak');
+  assert(badge === 'BRK', `expected badge BRK, got "${badge}"`);
+  assert((await getActiveSites()).length === 0, 'sites should be unlocked during break');
+});
+
+await test('final round triggers longBreak and then resets to round 1', async () => {
+  await startPomodoro({ focusMinutes: 20, shortBreakMinutes: 5, longBreakMinutes: 15, rounds: 2 }, ['x.com']);
+
+  advanceMinutes(20);
+  await stopFocus({ completed: true });
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'shortBreak', 'round 1 -> shortBreak');
+
+  advanceMinutes(5);
+  await stopFocus({ completed: true });
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'focus', 'shortBreak -> focus');
+  assert(store[STORAGE_KEYS.POMODORO_STATE].round === 2, 'should advance to round 2');
+
+  advanceMinutes(20);
+  await stopFocus({ completed: true });
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'longBreak', 'final round -> longBreak');
+
+  advanceMinutes(15);
+  await stopFocus({ completed: true });
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'focus', 'longBreak -> focus');
+  assert(store[STORAGE_KEYS.POMODORO_STATE].round === 1, 'should reset to round 1 after longBreak');
+});
+
+await test('skipBreak immediately starts next focus round and enforces tabs', async () => {
+  tabs = [{ id: 7, url: 'https://reddit.com/r/all' }];
+  await startPomodoro({ focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15, rounds: 4 }, ['reddit.com']);
+  updated.length = 0;
+
+  advanceMinutes(25);
+  await stopFocus({ completed: true });
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'shortBreak', 'should be in shortBreak');
+
+  await skipBreak();
+  assert(store[STORAGE_KEYS.POMODORO_STATE].phase === 'focus', 'skipBreak should start focus');
+  assert(store[STORAGE_KEYS.POMODORO_STATE].round === 2, 'should advance to round 2');
+  assert(badge === 'ON', 'badge should return to ON');
+  assert(updated.some(u => u.id === 7), 'open blocked tab should be redirected when break is skipped');
+});
+
+await test('stopping manually during break ends pomodoro without recording break as focus', async () => {
+  await startPomodoro({ focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15, rounds: 4 }, ['reddit.com']);
+  advanceMinutes(25);
+  await stopFocus({ completed: true });
+
+  const historyBefore = (store[STORAGE_KEYS.SESSION_HISTORY] || []).length;
+  advanceMinutes(3);
+  const stopped = await stopFocus({ completed: false });
+
+  assert(stopped === null, 'manual stop during break should not return a focus session');
+  assert(store[STORAGE_KEYS.IS_FOCUS] === false, 'pomodoro should be inactive');
+  assert(store[STORAGE_KEYS.POMODORO_STATE] === null, 'pomodoroState should be cleared');
+  assert((store[STORAGE_KEYS.SESSION_HISTORY] || []).length === historyBefore, 'history count unchanged');
+  assert(badge === '', 'badge should be cleared');
 });
 
 /* ── report ── */

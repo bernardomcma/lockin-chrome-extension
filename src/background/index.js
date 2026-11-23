@@ -8,7 +8,9 @@ import {
   recordAttempt,
   restoreState,
   resumeFocus,
+  skipBreak,
   startFocus,
+  startPomodoro,
   stopFocus,
   updateBadge
 } from '../core/timer.js';
@@ -120,6 +122,8 @@ chrome.alarms.onAlarm.addListener(alarm => {
 
 const handlers = {
   startFocus: msg => startFocus(msg.minutes, msg.blockedSites),
+  startPomodoro: msg => startPomodoro(msg.config, msg.blockedSites),
+  skipBreak: () => skipBreak(),
   stopFocus: () => stopFocus({ completed: false }),
   pauseFocus: () => pauseFocus(),
   resumeFocus: () => resumeFocus(),

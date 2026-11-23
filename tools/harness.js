@@ -48,6 +48,24 @@ export const SCENARIOS = {
     remainingMs: 13 * 60000 + 40000,
     attemptCounters: { 'instagram.com': 2 },
     lastUsedTime: 25
+  },
+  pomodoroBreak: {
+    blockedSites: ['instagram.com', 'x.com'],
+    isFocusing: true,
+    isPaused: false,
+    focusMode: 'pomodoro',
+    pomodoroState: {
+      phase: 'shortBreak',
+      round: 1,
+      rounds: 4,
+      focusMinutes: 25,
+      shortBreakMinutes: 5,
+      longBreakMinutes: 15
+    },
+    focusStartTs: now - 1 * 60000,
+    focusEndTs: now + 4 * 60000,
+    attemptCounters: {},
+    lastUsedTime: 25
   }
 };
 
@@ -162,12 +180,34 @@ export function installChromeStub({ page, scenario, locale } = {}) {
       // so the preview reads the same values the extension does.
       getManifest: () => manifest,
       sendMessage: async message => {
+        const timer = await import(`${ROOT}src/core/timer.js`);
+
         if (message.action === 'getStatus') {
-          return {
-            ...store,
-            today: store.dailyStats[dayKey()]
-              || { attempts: 0, focusMs: 0, sessions: 0, sites: {} }
-          };
+          return timer.getSnapshot();
+        }
+        if (message.action === 'startFocus') {
+          await timer.startFocus(message.minutes, message.blockedSites);
+          return { ok: true };
+        }
+        if (message.action === 'startPomodoro') {
+          await timer.startPomodoro(message.config, message.blockedSites);
+          return { ok: true };
+        }
+        if (message.action === 'pauseFocus') {
+          await timer.pauseFocus();
+          return { ok: true };
+        }
+        if (message.action === 'resumeFocus') {
+          await timer.resumeFocus();
+          return { ok: true };
+        }
+        if (message.action === 'stopFocus') {
+          await timer.stopFocus({ completed: false });
+          return { ok: true };
+        }
+        if (message.action === 'skipBreak') {
+          await timer.skipBreak();
+          return { ok: true };
         }
 
         return { ok: true };
@@ -196,7 +236,14 @@ export function installChromeStub({ page, scenario, locale } = {}) {
       },
       onChanged: { addListener: fn => changeListeners.push(fn) }
     },
-    tabs: { create: async () => {} },
+    alarms: {
+      clear: async () => {},
+      create: async () => {}
+    },
+    tabs: {
+      create: async () => {},
+      query: async () => []
+    },
     action: {
       setBadgeText: async () => {},
       setBadgeBackgroundColor: async () => {},

@@ -289,5 +289,41 @@
   },
   "summarySupportTitle": {
     "message": "donaciones"
+  },
+  "popupModeTimer": {
+    "message": "temporizador"
+  },
+  "popupModePomodoro": {
+    "message": "pomodoro"
+  },
+  "pomoFocusLabel": {
+    "message": "enfoque"
+  },
+  "pomoShortBreakLabel": {
+    "message": "pausa corta"
+  },
+  "pomoLongBreakLabel": {
+    "message": "pausa larga"
+  },
+  "pomoRoundsLabel": {
+    "message": "rondas"
+  },
+  "pomoPhaseFocus": {
+    "message": "enfoque"
+  },
+  "pomoPhaseShortBreak": {
+    "message": "pausa corta"
+  },
+  "pomoPhaseLongBreak": {
+    "message": "pausa larga"
+  },
+  "pomoBreakStateLabel": {
+    "message": "pausa"
+  },
+  "pomoBreakFoot": {
+    "message": "sitios desbloqueados. tómate un respiro."
+  },
+  "pomoSkipBreak": {
+    "message": "saltar pausa"
   }
 }

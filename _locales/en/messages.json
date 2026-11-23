@@ -289,5 +289,41 @@
   },
   "summarySupportTitle": {
     "message": "donations"
+  },
+  "popupModeTimer": {
+    "message": "timer"
+  },
+  "popupModePomodoro": {
+    "message": "pomodoro"
+  },
+  "pomoFocusLabel": {
+    "message": "focus"
+  },
+  "pomoShortBreakLabel": {
+    "message": "short break"
+  },
+  "pomoLongBreakLabel": {
+    "message": "long break"
+  },
+  "pomoRoundsLabel": {
+    "message": "rounds"
+  },
+  "pomoPhaseFocus": {
+    "message": "focus"
+  },
+  "pomoPhaseShortBreak": {
+    "message": "short break"
+  },
+  "pomoPhaseLongBreak": {
+    "message": "long break"
+  },
+  "pomoBreakStateLabel": {
+    "message": "break"
+  },
+  "pomoBreakFoot": {
+    "message": "sites unlocked. take a breather."
+  },
+  "pomoSkipBreak": {
+    "message": "skip break"
   }
 }

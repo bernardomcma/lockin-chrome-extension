@@ -21,7 +21,14 @@
   <!-- ══ idle ══ -->
   <main class="view" id="viewIdle" hidden>
     <section class="block">
-      <h2 class="eyebrow" data-i18n="popupDurationLabel"></h2>
+      <div class="block__head">
+        <h2 class="eyebrow" data-i18n="popupDurationLabel"></h2>
+        <div class="segmented" id="modeToggle" role="group">
+          <button class="segmented__btn" type="button" data-mode="timer" aria-pressed="true" data-i18n="popupModeTimer"></button>
+          <button class="segmented__btn" type="button" data-mode="pomodoro" aria-pressed="false" data-i18n="popupModePomodoro"></button>
+        </div>
+      </div>
+
       <div class="chips" id="durationChips">
         <button class="chip" type="button" data-minutes="15">15</button>
         <button class="chip" type="button" data-minutes="25">25</button>
@@ -39,6 +46,37 @@
             aria-labelledby="minutesLabel"
           />
           <span id="minutesLabel" data-i18n="popupMinutesShort"></span>
+        </label>
+      </div>
+
+      <div class="pomo-grid" id="pomodoroControls" hidden>
+        <label class="pomo-field">
+          <span class="eyebrow" data-i18n="pomoFocusLabel"></span>
+          <span class="pomo-field__box">
+            <input id="pomoFocusInput" type="number" min="1" max="1440" step="1" inputmode="numeric" value="25" />
+            <span class="pomo-field__unit" data-i18n="popupMinutesShort"></span>
+          </span>
+        </label>
+        <label class="pomo-field">
+          <span class="eyebrow" data-i18n="pomoShortBreakLabel"></span>
+          <span class="pomo-field__box">
+            <input id="pomoShortInput" type="number" min="1" max="1440" step="1" inputmode="numeric" value="5" />
+            <span class="pomo-field__unit" data-i18n="popupMinutesShort"></span>
+          </span>
+        </label>
+        <label class="pomo-field">
+          <span class="eyebrow" data-i18n="pomoLongBreakLabel"></span>
+          <span class="pomo-field__box">
+            <input id="pomoLongInput" type="number" min="1" max="1440" step="1" inputmode="numeric" value="15" />
+            <span class="pomo-field__unit" data-i18n="popupMinutesShort"></span>
+          </span>
+        </label>
+        <label class="pomo-field">
+          <span class="eyebrow" data-i18n="pomoRoundsLabel"></span>
+          <span class="pomo-field__box">
+            <input id="pomoRoundsInput" type="number" min="1" max="12" step="1" inputmode="numeric" value="4" />
+            <span class="pomo-field__unit">×</span>
+          </span>
         </label>
       </div>
     </section>
@@ -78,11 +116,16 @@
   <!-- ══ running ══ -->
   <main class="view" id="viewRunning" hidden>
     <section class="panel panel--accent hero" id="hero">
-      <p class="eyebrow hero__label" id="heroLabel"></p>
+      <div class="hero__top">
+        <p class="eyebrow hero__label" id="heroLabel"></p>
+        <div class="pomo-pips" id="pomoPips" hidden></div>
+      </div>
       <p class="numeral hero__clock" id="clock">--:--</p>
       <div class="meter" id="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
       <p class="hero__foot" id="heroFoot"></p>
     </section>
+
+    <button class="btn btn--block" id="skipBtn" type="button" data-i18n="pomoSkipBreak" hidden></button>
 
     <div class="row">
       <button class="btn" id="pauseBtn" type="button"></button>

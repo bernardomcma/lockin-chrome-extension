@@ -212,6 +212,103 @@ body {
   margin: 0;
 }
 
+/* ---------- mode toggle & pomodoro config ---------- */
+
+.segmented {
+  display: inline-flex;
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--paper-raised);
+}
+
+.segmented__btn {
+  padding: 3px 9px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.segmented__btn + .segmented__btn {
+  border-left: var(--border-w) solid var(--ink);
+}
+
+.segmented__btn[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.segmented__btn:focus-visible {
+  outline: var(--border-w) solid var(--pink);
+  outline-offset: -2px;
+}
+
+.pomo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pomo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: text;
+}
+
+.pomo-field__box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 34px;
+  padding: 4px 10px;
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+}
+
+.pomo-field__box:focus-within {
+  box-shadow: var(--shadow-sm);
+}
+
+.pomo-field__box input {
+  width: 100%;
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.pomo-field__box input::-webkit-outer-spin-button,
+.pomo-field__box input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pomo-field__unit {
+  flex: none;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
 /* ---------- site input ---------- */
 
 .add {
@@ -271,9 +368,52 @@ body {
   box-shadow: var(--shadow-lg);
 }
 
+.hero__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .hero__label {
   color: var(--on-lime);
   opacity: 0.65;
+}
+
+.pomo-pips {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pomo-pip {
+  width: 9px;
+  height: 9px;
+  border: var(--border-w) solid var(--ink);
+  background: transparent;
+}
+
+.pomo-pip[data-done='true'] {
+  background: var(--ink);
+}
+
+.pomo-pip[data-active='true'] {
+  background: var(--pink);
+}
+
+.hero[data-phase='break'] {
+  background: var(--sky);
+  color: var(--ink);
+}
+
+.hero[data-phase='break'] .hero__label,
+.hero[data-phase='break'] .hero__clock,
+.hero[data-phase='break'] .hero__foot {
+  color: var(--ink);
+}
+
+.hero[data-phase='break'] .hero__label {
+  opacity: 0.75;
 }
 
 .hero__clock {

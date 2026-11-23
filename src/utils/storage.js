@@ -6,10 +6,20 @@ export const STORAGE_KEYS = {
   END_TS: 'focusEndTs',
   REMAINING_MS: 'remainingMs',
   LAST_USED_TIME: 'lastUsedTime',
+  MODE: 'focusMode',
+  POMODORO_CONFIG: 'pomodoroConfig',
+  POMODORO_STATE: 'pomodoroState',
   COUNTERS: 'attemptCounters',
   SESSION_HISTORY: 'sessionHistory',
   DAILY_STATS: 'dailyStats',
   LOCALE: 'uiLocale'
+};
+
+export const DEFAULT_POMODORO_CONFIG = {
+  focusMinutes: 25,
+  shortBreakMinutes: 5,
+  longBreakMinutes: 15,
+  rounds: 4
 };
 
 export const FOCUS_ALARM_NAME = 'focusEnd';

@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from './src/utils/storage.js';
+import { DEFAULT_POMODORO_CONFIG, STORAGE_KEYS } from './src/utils/storage.js';
 import { canonicalizeSite, findCoveringRule, normalizeSites } from './src/core/blocking.js';
 import {
   applyStaticText,
@@ -24,6 +24,7 @@ const el = id => document.getElementById(id);
 
 /** Draft list of sites. Committed to storage when a session starts. */
 let draftSites = [];
+let activeMode = 'timer';
 let tickHandle = null;
 
 /* ─────────── toast ─────────── */
@@ -166,6 +167,45 @@ function syncDurationChips() {
   }
 }
 
+/* ─────────── mode & pomodoro config ─────────── */
+
+function setMode(mode) {
+  activeMode = mode === 'pomodoro' ? 'pomodoro' : 'timer';
+
+  for (const btn of document.querySelectorAll('#modeToggle [data-mode]')) {
+    btn.setAttribute('aria-pressed', String(btn.dataset.mode === activeMode));
+  }
+
+  el('durationChips').hidden = activeMode === 'pomodoro';
+  el('pomodoroControls').hidden = activeMode !== 'pomodoro';
+}
+
+function clampConfigValue(inputId, min, max, fallback) {
+  const parsed = Number.parseInt(el(inputId).value, 10);
+  return Number.isFinite(parsed) && parsed >= min ? Math.min(parsed, max) : fallback;
+}
+
+function readPomodoroConfig() {
+  return {
+    focusMinutes: clampConfigValue('pomoFocusInput', 1, 1440, DEFAULT_POMODORO_CONFIG.focusMinutes),
+    shortBreakMinutes: clampConfigValue('pomoShortInput', 1, 1440, DEFAULT_POMODORO_CONFIG.shortBreakMinutes),
+    longBreakMinutes: clampConfigValue('pomoLongInput', 1, 1440, DEFAULT_POMODORO_CONFIG.longBreakMinutes),
+    rounds: clampConfigValue('pomoRoundsInput', 1, 12, DEFAULT_POMODORO_CONFIG.rounds)
+  };
+}
+
+function applyPomodoroConfig(config) {
+  const merged = { ...DEFAULT_POMODORO_CONFIG, ...(config || {}) };
+  el('pomoFocusInput').value = String(merged.focusMinutes);
+  el('pomoShortInput').value = String(merged.shortBreakMinutes);
+  el('pomoLongInput').value = String(merged.longBreakMinutes);
+  el('pomoRoundsInput').value = String(merged.rounds);
+}
+
+function persistPomodoroConfig() {
+  void chrome.storage.local.set({ [STORAGE_KEYS.POMODORO_CONFIG]: readPomodoroConfig() });
+}
+
 /* ─────────── meter ─────────── */
 
 function buildMeter() {
@@ -239,8 +279,35 @@ function renderTally(counters) {
 
 let lastSnapshot = null;
 
+function renderPomoPips(pomo) {
+  const wrap = el('pomoPips');
+
+  if (!pomo) {
+    wrap.hidden = true;
+    wrap.textContent = '';
+    return;
+  }
+
+  wrap.hidden = false;
+  wrap.textContent = '';
+
+  const inBreak = pomo.phase === 'shortBreak' || pomo.phase === 'longBreak';
+
+  for (let i = 1; i <= pomo.rounds; i += 1) {
+    const pip = document.createElement('span');
+    pip.className = 'pomo-pip';
+    const done = i < pomo.round || (i === pomo.round && inBreak);
+    const active = i === pomo.round && !inBreak;
+    pip.dataset.done = String(done);
+    pip.dataset.active = String(active);
+    wrap.append(pip);
+  }
+}
+
 function renderRunning(snapshot) {
   const isPaused = Boolean(snapshot[STORAGE_KEYS.IS_PAUSED]);
+  const pomo = snapshot[STORAGE_KEYS.POMODORO_STATE] || null;
+  const inBreak = pomo?.phase === 'shortBreak' || pomo?.phase === 'longBreak';
   const startTs = snapshot[STORAGE_KEYS.START_TS] || 0;
   const endTs = snapshot[STORAGE_KEYS.END_TS] || 0;
   const remainingMs = isPaused
@@ -252,28 +319,50 @@ function renderRunning(snapshot) {
   const attempts = Object.values(counters).reduce((sum, n) => sum + n, 0);
 
   el('hero').dataset.paused = String(isPaused);
+  el('hero').dataset.phase = inBreak ? 'break' : 'focus';
   el('clock').textContent = formatClock(remainingMs);
-  el('heroLabel').textContent = isPaused ? t('popupPausedLabel') : t('popupRunningLabel');
-  el('heroFoot').textContent = attempts
-    ? plural('popupHeroBlocked', attempts)
-    : t('popupHeroClean');
 
+  let phaseLabel;
+  if (pomo) {
+    const phaseKey = pomo.phase === 'longBreak'
+      ? 'pomoPhaseLongBreak'
+      : (pomo.phase === 'shortBreak' ? 'pomoPhaseShortBreak' : 'pomoPhaseFocus');
+    phaseLabel = `${t(phaseKey)} · ${pomo.round}/${pomo.rounds}`;
+  } else {
+    phaseLabel = isPaused ? t('popupPausedLabel') : t('popupRunningLabel');
+  }
+
+  el('heroLabel').textContent = isPaused && pomo
+    ? `${t('popupPausedLabel')} · ${phaseLabel}`
+    : phaseLabel;
+
+  el('heroFoot').textContent = inBreak
+    ? t('pomoBreakFoot')
+    : (attempts ? plural('popupHeroBlocked', attempts) : t('popupHeroClean'));
+
+  renderPomoPips(pomo);
   renderMeter(1 - remainingMs / totalMs);
+
+  el('skipBtn').hidden = !inBreak;
 
   const pauseBtn = el('pauseBtn');
   pauseBtn.textContent = isPaused ? t('popupResume') : t('popupPause');
 
-  el('stateDot').dataset.state = isPaused ? 'paused' : 'on';
-  el('stateLabel').textContent = isPaused ? t('popupPausedLabel') : t('popupRunningLabel');
+  el('stateDot').dataset.state = isPaused ? 'paused' : (inBreak ? 'break' : 'on');
+  el('stateLabel').textContent = isPaused
+    ? t('popupPausedLabel')
+    : (inBreak ? t('pomoBreakStateLabel') : t('popupRunningLabel'));
 
-  renderTally(counters);
+  renderTally(inBreak ? {} : counters);
 }
 
 function renderIdle(snapshot) {
   el('stateDot').dataset.state = 'off';
   el('stateLabel').textContent = t('popupIdleLabel');
 
+  setMode(snapshot[STORAGE_KEYS.MODE] || 'timer');
   setDuration(snapshot[STORAGE_KEYS.LAST_USED_TIME] || DEFAULT_MINUTES);
+  applyPomodoroConfig(snapshot[STORAGE_KEYS.POMODORO_CONFIG]);
   renderSites();
 }
 
@@ -398,13 +487,37 @@ function wire() {
 
   el('minutesInput').addEventListener('input', syncDurationChips);
 
+  el('modeToggle').addEventListener('click', event => {
+    const btn = event.target.closest('[data-mode]');
+
+    if (!btn) {
+      return;
+    }
+
+    setMode(btn.dataset.mode);
+    void chrome.storage.local.set({ [STORAGE_KEYS.MODE]: activeMode });
+  });
+
+  for (const id of ['pomoFocusInput', 'pomoShortInput', 'pomoLongInput', 'pomoRoundsInput']) {
+    el(id).addEventListener('change', persistPomodoroConfig);
+  }
+
   el('startBtn').addEventListener('click', async () => {
     if (!draftSites.length) {
       toast(t('popupSitesEmpty'));
       return;
     }
 
-    await send('startFocus', { minutes: selectedMinutes(), blockedSites: draftSites });
+    if (activeMode === 'pomodoro') {
+      await send('startPomodoro', { config: readPomodoroConfig(), blockedSites: draftSites });
+    } else {
+      await send('startFocus', { minutes: selectedMinutes(), blockedSites: draftSites });
+    }
+    await refresh();
+  });
+
+  el('skipBtn').addEventListener('click', async () => {
+    await send('skipBreak');
     await refresh();
   });
 
@@ -468,7 +581,8 @@ function wire() {
       STORAGE_KEYS.IS_FOCUS,
       STORAGE_KEYS.IS_PAUSED,
       STORAGE_KEYS.END_TS,
-      STORAGE_KEYS.COUNTERS
+      STORAGE_KEYS.COUNTERS,
+      STORAGE_KEYS.POMODORO_STATE
     ];
 
     if (watched.some(key => key in changes)) {

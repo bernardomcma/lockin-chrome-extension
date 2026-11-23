@@ -44,12 +44,17 @@ async function loadSession() {
     STORAGE_KEYS.IS_FOCUS,
     STORAGE_KEYS.IS_PAUSED,
     STORAGE_KEYS.END_TS,
-    STORAGE_KEYS.REMAINING_MS
+    STORAGE_KEYS.REMAINING_MS,
+    STORAGE_KEYS.POMODORO_STATE
   ]);
+
+  const phase = state[STORAGE_KEYS.POMODORO_STATE]?.phase;
+  const isBreak = phase === 'shortBreak' || phase === 'longBreak';
 
   session = {
     isFocusing: Boolean(state[STORAGE_KEYS.IS_FOCUS]),
     isPaused: Boolean(state[STORAGE_KEYS.IS_PAUSED]),
+    isBreak,
     endTs: state[STORAGE_KEYS.END_TS] || 0,
     remainingMs: state[STORAGE_KEYS.REMAINING_MS] || 0
   };
@@ -58,7 +63,7 @@ async function loadSession() {
 }
 
 function remainingMs() {
-  if (!session?.isFocusing) {
+  if (!session?.isFocusing || session.isBreak) {
     return 0;
   }
 
@@ -69,7 +74,7 @@ function remainingMs() {
 
 /** Full render. Called on load and whenever the session state changes. */
 function render() {
-  const over = !session?.isFocusing;
+  const over = !session?.isFocusing || session.isBreak;
 
   el('stateLabel').textContent = over
     ? t('popupIdleLabel')
@@ -156,7 +161,12 @@ function wire() {
       return;
     }
 
-    const watched = [STORAGE_KEYS.IS_FOCUS, STORAGE_KEYS.IS_PAUSED, STORAGE_KEYS.END_TS];
+    const watched = [
+      STORAGE_KEYS.IS_FOCUS,
+      STORAGE_KEYS.IS_PAUSED,
+      STORAGE_KEYS.END_TS,
+      STORAGE_KEYS.POMODORO_STATE
+    ];
 
     if (watched.some(key => key in changes)) {
       void loadSession().then(startTicking);
