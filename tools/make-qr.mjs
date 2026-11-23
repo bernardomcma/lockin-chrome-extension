@@ -24,7 +24,7 @@ const PAYLOADS = [
     label: 'LivePix',
     // The public donation page. The widget/embed URL is a page that *renders* a
     // QR code; encoding that one sends whoever scans it to another QR code.
-    text: 'https://livepix.gg/bernardomrtns'
+    text: 'https://livepix.gg/bernardomcma'
   },
   {
     key: 'KOFI',

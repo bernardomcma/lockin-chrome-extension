@@ -225,7 +225,7 @@ stored as module matrices in `src/ui/qr-codes.js` and drawn as inline SVG, so
 the panel costs nothing to open. The QR box stays light in dark mode: an
 inverted code is unreadable to most phone cameras.
 
-The LivePix code encodes the public donation page, `livepix.gg/bernardomrtns`.
+The LivePix code encodes the public donation page, `livepix.gg/bernardomcma`.
 Not the `widget.livepix.gg/embed/...` URL - that is a page which *renders* a QR
 code, so encoding it would send whoever scanned it to another QR code.
 

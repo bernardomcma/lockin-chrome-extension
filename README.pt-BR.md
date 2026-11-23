@@ -224,7 +224,7 @@ de QR ou embutir o widget do LivePix quebraria isso. Ficam como matrizes em
 clara no modo escuro: código invertido é ilegível para a maioria das câmeras.
 
 O código do LivePix codifica a página pública de doação,
-`livepix.gg/bernardomrtns`. Não a URL `widget.livepix.gg/embed/...` - aquela é
+`livepix.gg/bernardomcma`. Não a URL `widget.livepix.gg/embed/...` - aquela é
 uma página que *renderiza* um QR code, então codificá-la levaria quem escaneou
 para outro QR code.
 
