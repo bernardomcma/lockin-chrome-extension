@@ -1,0 +1,328 @@
+{
+  "extName": {
+    "message": "Lock In"
+  },
+  "extDescription": {
+    "message": "在设定时间内屏蔽让你分心的网站，并记录每一次试图偷溜回去的次数。"
+  },
+  "popupIdleLabel": {
+    "message": "已解锁"
+  },
+  "popupRunningLabel": {
+    "message": "已锁定"
+  },
+  "popupPausedLabel": {
+    "message": "已暂停"
+  },
+  "popupDurationLabel": {
+    "message": "持续时间"
+  },
+  "popupMinutesShort": {
+    "message": "分钟"
+  },
+  "popupSitesLabel": {
+    "message": "屏蔽列表"
+  },
+  "popupSitesPlaceholder": {
+    "message": "youtube.com/shorts"
+  },
+  "popupAdd": {
+    "message": "添加"
+  },
+  "popupSitesHint": {
+    "message": "输入域名、路径或关键词。例如 \"youtube.com/shorts\" 可保留课程视频。"
+  },
+  "popupSitesEmpty": {
+    "message": "列表为空。没有列表就无法锁定。"
+  },
+  "popupPresetsLabel": {
+    "message": "快捷添加"
+  },
+  "popupRemoveSite": {
+    "message": "移除 $1"
+  },
+  "popupSiteInvalid": {
+    "message": "这看起来不像一个网站。"
+  },
+  "popupSiteDuplicate": {
+    "message": "$1 已在列表中。"
+  },
+  "popupSiteCovered": {
+    "message": "$1 已屏蔽整个网站，此规则不会额外生效。"
+  },
+  "popupPresetNothingNew": {
+    "message": "这些都已在列表中。"
+  },
+  "presetSocial": {
+    "message": "社交"
+  },
+  "presetVideo": {
+    "message": "视频"
+  },
+  "presetForums": {
+    "message": "论坛"
+  },
+  "popupStart": {
+    "message": "开始锁定"
+  },
+  "popupPause": {
+    "message": "暂停"
+  },
+  "popupResume": {
+    "message": "继续"
+  },
+  "popupStop": {
+    "message": "解锁"
+  },
+  "popupTallyLabel": {
+    "message": "本次已拦截"
+  },
+  "popupSummary": {
+    "message": "数据统计"
+  },
+  "popupRepo": {
+    "message": "源代码"
+  },
+  "popupHeroClean": {
+    "message": "尚无分心记录，干得漂亮。"
+  },
+  "popupToday": {
+    "message": "今日: $1 · $2 · $3"
+  },
+  "popupTodayEmpty": {
+    "message": "今日暂无记录。"
+  },
+  "blockedPageTitle": {
+    "message": "不行 - Lock In"
+  },
+  "blockedShout1": {
+    "message": "不行。"
+  },
+  "blockedShout2": {
+    "message": "又来了？"
+  },
+  "blockedShout3": {
+    "message": "认真的吗？"
+  },
+  "blockedShout4": {
+    "message": "今天诱惑很大啊。"
+  },
+  "blockedThisSite": {
+    "message": "这个网站"
+  },
+  "blockedSiteVerb": {
+    "message": "可以等会儿再看。"
+  },
+  "blockedRemainingLabel": {
+    "message": "剩余时间"
+  },
+  "blockedTallyFirst": {
+    "message": "第一次尝试，看看能坚持多久。"
+  },
+  "blockedTallySession": {
+    "message": "本次专注第 $1 次尝试，已记录。"
+  },
+  "blockedTallyToday": {
+    "message": "今日第 $1 次尝试，全部记录在案。"
+  },
+  "blockedBack": {
+    "message": "回去工作"
+  },
+  "blockedFootNoteOver": {
+    "message": "已全部解除屏蔽。"
+  },
+  "blockedFootNote": {
+    "message": "专注仍在继续，这不算休息。"
+  },
+  "blockedSessionOver": {
+    "message": "专注结束，你自由了。"
+  },
+  "blockedGoNow": {
+    "message": "继续"
+  },
+  "summaryPageTitle": {
+    "message": "数据统计 - Lock In"
+  },
+  "summaryHeading": {
+    "message": "数据统计"
+  },
+  "summarySub": {
+    "message": "$1 · 累计专注 $2"
+  },
+  "summarySubEmpty": {
+    "message": "暂无记录，开始一次专注后再来看看。"
+  },
+  "summaryReset": {
+    "message": "清空全部"
+  },
+  "summaryResetConfirm": {
+    "message": "这将删除所有历史记录、每日统计和拦截计数，无法撤销。确定继续？"
+  },
+  "summaryWeekTitle": {
+    "message": "最近 14 天"
+  },
+  "summaryWeekLegend": {
+    "message": "每日专注分钟数"
+  },
+  "summaryBarTooltip": {
+    "message": "$1 分钟 · $2 · $3"
+  },
+  "summaryNoData": {
+    "message": "暂无数据。"
+  },
+  "summaryOffendersTitle": {
+    "message": "最常分心的网站"
+  },
+  "summaryClearCounters": {
+    "message": "重置计数"
+  },
+  "summaryNoAttempts": {
+    "message": "当前专注暂无拦截记录。"
+  },
+  "summaryHistoryTitle": {
+    "message": "历史记录"
+  },
+  "summaryNoHistory": {
+    "message": "暂无专注记录。"
+  },
+  "summarySessionMeta": {
+    "message": "$1 分钟 / 计划 $2 分钟 · $3"
+  },
+  "summaryBadgeDone": {
+    "message": "已完成"
+  },
+  "summaryBadgeCut": {
+    "message": "提前结束"
+  },
+  "statTodayFocus": {
+    "message": "今日专注"
+  },
+  "statTodaySessions": {
+    "message": "今日次数"
+  },
+  "statTodayBlocked": {
+    "message": "今日拦截"
+  },
+  "statStreak": {
+    "message": "连续天数"
+  },
+  "statAllTime": {
+    "message": "累计专注"
+  },
+  "unitMinutes": {
+    "message": "$1 分钟"
+  },
+  "unitHours": {
+    "message": "$1小时"
+  },
+  "unitHoursMinutes": {
+    "message": "$HOURS$小时$MINUTES$分",
+    "placeholders": {
+      "HOURS": {
+        "content": "$1"
+      },
+      "MINUTES": {
+        "content": "$2"
+      }
+    }
+  },
+  "unitMinAbbrev": {
+    "message": "分"
+  },
+  "unitDaysAbbrev": {
+    "message": "天"
+  },
+  "countSessionsOne": {
+    "message": "1 次"
+  },
+  "countSessionsOther": {
+    "message": "$1 次"
+  },
+  "countBlockedOne": {
+    "message": "1 次拦截"
+  },
+  "countBlockedOther": {
+    "message": "$1 次拦截"
+  },
+  "popupHeroBlockedOne": {
+    "message": "至今已拦截 1 次分心。"
+  },
+  "popupHeroBlockedOther": {
+    "message": "至今已拦截 $1 次分心。"
+  },
+  "popupPresetAddedOne": {
+    "message": "已添加 1 个网站。"
+  },
+  "popupPresetAddedOther": {
+    "message": "已添加 $1 个网站。"
+  },
+  "blockedPausedNote": {
+    "message": "已暂停，恢复后将继续屏蔽网站。"
+  },
+  "supportButton": {
+    "message": "请我喝咖啡"
+  },
+  "supportPitch": {
+    "message": "觉得好用？请我喝杯咖啡。"
+  },
+  "supportNote": {
+    "message": "无追踪、无付费墙、无广告，仅此而已。"
+  },
+  "supportOpenLivepix": {
+    "message": "打开 LivePix"
+  },
+  "supportCopy": {
+    "message": "复制"
+  },
+  "supportCopied": {
+    "message": "已复制"
+  },
+  "supportCopyFailed": {
+    "message": "失败"
+  },
+  "supportCopyAria": {
+    "message": "复制 $1 地址"
+  },
+  "supportQrAlt": {
+    "message": "$1 二维码"
+  },
+  "summarySupportTitle": {
+    "message": "赞赏"
+  },
+  "popupModeTimer": {
+    "message": "计时器"
+  },
+  "popupModePomodoro": {
+    "message": "番茄钟"
+  },
+  "pomoFocusLabel": {
+    "message": "专注"
+  },
+  "pomoShortBreakLabel": {
+    "message": "短休息"
+  },
+  "pomoLongBreakLabel": {
+    "message": "长休息"
+  },
+  "pomoRoundsLabel": {
+    "message": "轮数"
+  },
+  "pomoPhaseFocus": {
+    "message": "专注"
+  },
+  "pomoPhaseShortBreak": {
+    "message": "短休息"
+  },
+  "pomoPhaseLongBreak": {
+    "message": "长休息"
+  },
+  "pomoBreakStateLabel": {
+    "message": "休息"
+  },
+  "pomoBreakFoot": {
+    "message": "网站已解锁，休息一下吧。"
+  },
+  "pomoSkipBreak": {
+    "message": "跳过休息"
+  }
+}

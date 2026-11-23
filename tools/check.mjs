@@ -110,8 +110,9 @@ for (const locale of localeDirs) {
   locales[locale] = json[path] || {};
 }
 
-const [baseLocale, ...otherLocales] = localeDirs;
-const baseKeys = new Set(Object.keys(locales[baseLocale]));
+const baseLocale = 'en';
+const otherLocales = localeDirs.filter(dir => dir !== baseLocale);
+const baseKeys = new Set(Object.keys(locales[baseLocale] || {}));
 
 for (const locale of otherLocales) {
   const keys = new Set(Object.keys(locales[locale]));

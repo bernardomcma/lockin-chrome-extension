@@ -107,9 +107,10 @@ body {
 
 .block__head {
   display: flex;
-  align-items: baseline;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px 8px;
 }
 
 .hint {
@@ -216,6 +217,7 @@ body {
 
 .segmented {
   display: inline-flex;
+  flex: none;
   border: var(--border-w) solid var(--ink);
   border-radius: var(--radius);
   overflow: hidden;

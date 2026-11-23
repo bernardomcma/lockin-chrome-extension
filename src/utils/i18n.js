@@ -21,7 +21,13 @@ export const DEFAULT_LOCALE = 'en';
 export const LOCALES = [
   { code: 'en', tag: 'en-US', name: 'English', short: 'EN', flag: 'us' },
   { code: 'pt_BR', tag: 'pt-BR', name: 'Português', short: 'PT', flag: 'br' },
-  { code: 'es', tag: 'es-ES', name: 'Español', short: 'ES', flag: 'es' }
+  { code: 'es', tag: 'es-ES', name: 'Español', short: 'ES', flag: 'es' },
+  { code: 'fr', tag: 'fr-FR', name: 'Français', short: 'FR', flag: 'fr' },
+  { code: 'de', tag: 'de-DE', name: 'Deutsch', short: 'DE', flag: 'de' },
+  { code: 'it', tag: 'it-IT', name: 'Italiano', short: 'IT', flag: 'it' },
+  { code: 'ja', tag: 'ja-JP', name: '日本語', short: 'JA', flag: 'jp' },
+  { code: 'ko', tag: 'ko-KR', name: '한국어', short: 'KO', flag: 'kr' },
+  { code: 'zh_CN', tag: 'zh-CN', name: '简体中文', short: 'ZH', flag: 'cn' }
 ];
 
 const byCode = new Map(LOCALES.map(locale => [locale.code, locale]));

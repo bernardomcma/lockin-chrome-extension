@@ -1,0 +1,328 @@
+{
+  "extName": {
+    "message": "Lock In"
+  },
+  "extDescription": {
+    "message": "集中を妨げるサイトを指定時間ブロックし、開こうとした回数も記録します。"
+  },
+  "popupIdleLabel": {
+    "message": "解除中"
+  },
+  "popupRunningLabel": {
+    "message": "ロック中"
+  },
+  "popupPausedLabel": {
+    "message": "一時停止"
+  },
+  "popupDurationLabel": {
+    "message": "時間"
+  },
+  "popupMinutesShort": {
+    "message": "分"
+  },
+  "popupSitesLabel": {
+    "message": "ブロックするサイト"
+  },
+  "popupSitesPlaceholder": {
+    "message": "youtube.com/shorts"
+  },
+  "popupAdd": {
+    "message": "追加"
+  },
+  "popupSitesHint": {
+    "message": "ドメイン、パス、キーワードを指定できます。「youtube.com/shorts」なら講義動画は残せます。"
+  },
+  "popupSitesEmpty": {
+    "message": "リストが空です。サイトを追加してください。"
+  },
+  "popupPresetsLabel": {
+    "message": "プリセット"
+  },
+  "popupRemoveSite": {
+    "message": "$1 を削除"
+  },
+  "popupSiteInvalid": {
+    "message": "有効なサイト形式ではありません。"
+  },
+  "popupSiteDuplicate": {
+    "message": "$1 はすでにリストにあります。"
+  },
+  "popupSiteCovered": {
+    "message": "$1 がすでにサイト全体をブロックしています。"
+  },
+  "popupPresetNothingNew": {
+    "message": "すべてすでにリストにあります。"
+  },
+  "presetSocial": {
+    "message": "SNS"
+  },
+  "presetVideo": {
+    "message": "動画"
+  },
+  "presetForums": {
+    "message": "掲示板"
+  },
+  "popupStart": {
+    "message": "ロック開始"
+  },
+  "popupPause": {
+    "message": "一時停止"
+  },
+  "popupResume": {
+    "message": "再開"
+  },
+  "popupStop": {
+    "message": "解除"
+  },
+  "popupTallyLabel": {
+    "message": "今回のブロック回数"
+  },
+  "popupSummary": {
+    "message": "統計"
+  },
+  "popupRepo": {
+    "message": "ソースコード"
+  },
+  "popupHeroClean": {
+    "message": "まだ寄り道なし。お見事です。"
+  },
+  "popupToday": {
+    "message": "今日: $1 · $2 · $3"
+  },
+  "popupTodayEmpty": {
+    "message": "今日はまだ記録がありません。"
+  },
+  "blockedPageTitle": {
+    "message": "ダメ - Lock In"
+  },
+  "blockedShout1": {
+    "message": "ダメ。"
+  },
+  "blockedShout2": {
+    "message": "また？"
+  },
+  "blockedShout3": {
+    "message": "本気ですか？"
+  },
+  "blockedShout4": {
+    "message": "今日は手強いですね。"
+  },
+  "blockedThisSite": {
+    "message": "このサイト"
+  },
+  "blockedSiteVerb": {
+    "message": "は後回しにできます。"
+  },
+  "blockedRemainingLabel": {
+    "message": "残り時間"
+  },
+  "blockedTallyFirst": {
+    "message": "1回目。どこまで我慢できるでしょうか。"
+  },
+  "blockedTallySession": {
+    "message": "このセッションで $1 回目の試行。記録しました。"
+  },
+  "blockedTallyToday": {
+    "message": "今日 $1 回目の試行。すべて記録済みです。"
+  },
+  "blockedBack": {
+    "message": "作業に戻る"
+  },
+  "blockedFootNoteOver": {
+    "message": "ブロックは解除されました。"
+  },
+  "blockedFootNote": {
+    "message": "集中セッション実行中です。これは休憩に含まれません。"
+  },
+  "blockedSessionOver": {
+    "message": "セッション終了。お疲れさまでした。"
+  },
+  "blockedGoNow": {
+    "message": "進む"
+  },
+  "summaryPageTitle": {
+    "message": "統計 - Lock In"
+  },
+  "summaryHeading": {
+    "message": "統計"
+  },
+  "summarySub": {
+    "message": "$1 · 合計 $2 集中"
+  },
+  "summarySubEmpty": {
+    "message": "まだ記録がありません。セッションを開始しましょう。"
+  },
+  "summaryReset": {
+    "message": "すべて削除"
+  },
+  "summaryResetConfirm": {
+    "message": "すべての履歴、日別統計、カウンターを削除します。元に戻せません。続けますか？"
+  },
+  "summaryWeekTitle": {
+    "message": "過去14日間"
+  },
+  "summaryWeekLegend": {
+    "message": "1日あたりの集中時間（分）"
+  },
+  "summaryBarTooltip": {
+    "message": "$1 分 · $2 · $3"
+  },
+  "summaryNoData": {
+    "message": "まだデータがありません。"
+  },
+  "summaryOffendersTitle": {
+    "message": "誘惑の多いサイト"
+  },
+  "summaryClearCounters": {
+    "message": "カウンターをリセット"
+  },
+  "summaryNoAttempts": {
+    "message": "現在のセッションではブロック記録はありません。"
+  },
+  "summaryHistoryTitle": {
+    "message": "履歴"
+  },
+  "summaryNoHistory": {
+    "message": "セッション履歴はありません。"
+  },
+  "summarySessionMeta": {
+    "message": "$1 分 / 予定 $2 分 · $3"
+  },
+  "summaryBadgeDone": {
+    "message": "完了"
+  },
+  "summaryBadgeCut": {
+    "message": "中断"
+  },
+  "statTodayFocus": {
+    "message": "今日の集中"
+  },
+  "statTodaySessions": {
+    "message": "今日のセッション"
+  },
+  "statTodayBlocked": {
+    "message": "今日のブロック"
+  },
+  "statStreak": {
+    "message": "連続日数"
+  },
+  "statAllTime": {
+    "message": "累計集中"
+  },
+  "unitMinutes": {
+    "message": "$1 分"
+  },
+  "unitHours": {
+    "message": "$1時間"
+  },
+  "unitHoursMinutes": {
+    "message": "$HOURS$時間$MINUTES$分",
+    "placeholders": {
+      "HOURS": {
+        "content": "$1"
+      },
+      "MINUTES": {
+        "content": "$2"
+      }
+    }
+  },
+  "unitMinAbbrev": {
+    "message": "分"
+  },
+  "unitDaysAbbrev": {
+    "message": "日"
+  },
+  "countSessionsOne": {
+    "message": "1 セッション"
+  },
+  "countSessionsOther": {
+    "message": "$1 セッション"
+  },
+  "countBlockedOne": {
+    "message": "1 回ブロック"
+  },
+  "countBlockedOther": {
+    "message": "$1 回ブロック"
+  },
+  "popupHeroBlockedOne": {
+    "message": "これまで 1 回ブロックしました。"
+  },
+  "popupHeroBlockedOther": {
+    "message": "これまで $1 回ブロックしました。"
+  },
+  "popupPresetAddedOne": {
+    "message": "1 サイト追加しました。"
+  },
+  "popupPresetAddedOther": {
+    "message": "$1 サイト追加しました。"
+  },
+  "blockedPausedNote": {
+    "message": "一時停止中です。再開すると再びブロックされます。"
+  },
+  "supportButton": {
+    "message": "コーヒーを奢る"
+  },
+  "supportPitch": {
+    "message": "気に入ったらコーヒーを一杯どうぞ。"
+  },
+  "supportNote": {
+    "message": "追跡なし、課金プランなし、広告なし。"
+  },
+  "supportOpenLivepix": {
+    "message": "LivePix を開く"
+  },
+  "supportCopy": {
+    "message": "コピー"
+  },
+  "supportCopied": {
+    "message": "コピー済み"
+  },
+  "supportCopyFailed": {
+    "message": "失敗"
+  },
+  "supportCopyAria": {
+    "message": "$1 のアドレスをコピー"
+  },
+  "supportQrAlt": {
+    "message": "$1 の QR コード"
+  },
+  "summarySupportTitle": {
+    "message": "寄付"
+  },
+  "popupModeTimer": {
+    "message": "タイマー"
+  },
+  "popupModePomodoro": {
+    "message": "ポモドーロ"
+  },
+  "pomoFocusLabel": {
+    "message": "集中"
+  },
+  "pomoShortBreakLabel": {
+    "message": "小休憩"
+  },
+  "pomoLongBreakLabel": {
+    "message": "長休憩"
+  },
+  "pomoRoundsLabel": {
+    "message": "ラウンド"
+  },
+  "pomoPhaseFocus": {
+    "message": "集中"
+  },
+  "pomoPhaseShortBreak": {
+    "message": "小休憩"
+  },
+  "pomoPhaseLongBreak": {
+    "message": "長休憩"
+  },
+  "pomoBreakStateLabel": {
+    "message": "休憩"
+  },
+  "pomoBreakFoot": {
+    "message": "サイト解除中。少し一息つきましょう。"
+  },
+  "pomoSkipBreak": {
+    "message": "休憩をスキップ"
+  }
+}

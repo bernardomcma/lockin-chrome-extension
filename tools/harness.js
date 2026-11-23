@@ -87,7 +87,19 @@ const BLOCKED_PARAMS = {
 };
 
 const LOCALE_ALIASES = {
-  en: 'en', pt: 'pt_BR', pt_BR: 'pt_BR', 'pt-BR': 'pt_BR', es: 'es'
+  en: 'en',
+  pt: 'pt_BR',
+  pt_BR: 'pt_BR',
+  'pt-BR': 'pt_BR',
+  es: 'es',
+  fr: 'fr',
+  de: 'de',
+  it: 'it',
+  ja: 'ja',
+  ko: 'ko',
+  zh: 'zh_CN',
+  zh_CN: 'zh_CN',
+  'zh-CN': 'zh_CN'
 };
 
 function dayKey(date = new Date()) {

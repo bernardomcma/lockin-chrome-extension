@@ -361,47 +361,106 @@ body {
  * shadow - so it does not depend on colour alone.
  */
 .langs {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-trigger {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-}
-
-.lang {
-  display: block;
-  width: 24px;
-  padding: 0;
+  padding: 3px 7px;
   border: var(--border-w) solid var(--ink);
   border-radius: 2px;
   background: var(--paper-raised);
+  color: var(--ink);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
-  line-height: 0;
-  opacity: 0.42;
-  transition: opacity 100ms, width 100ms, transform 80ms steps(2);
-}
-
-.lang:hover {
-  opacity: 0.8;
-}
-
-.lang[aria-pressed='true'] {
-  width: 30px;
-  opacity: 1;
   box-shadow: 2px 2px 0 var(--shadow-color);
+  transition: background 80ms, transform 80ms steps(2);
 }
 
-.lang:active {
+.lang-trigger:hover {
+  background: var(--paper-sunken);
+}
+
+.lang-trigger:active {
   transform: translate(1px, 1px);
+  box-shadow: none;
 }
 
-.lang:focus-visible {
+.lang-trigger:focus-visible {
   outline: var(--border-w) solid var(--pink);
   outline-offset: 2px;
 }
 
+.lang-trigger__code {
+  line-height: 1;
+}
+
+.lang-trigger__caret {
+  font-size: 9px;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
 .lang__flag {
   display: block;
+  width: 18px;
+  height: 12px;
+  flex: none;
+  border: 1px solid var(--ink);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  min-width: 152px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--paper-raised);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  height: auto;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lang-option:hover,
+.lang-option:focus-visible {
+  background: var(--paper-sunken);
+  outline: none;
+}
+
+.lang-option[aria-selected='true'] {
+  background: var(--lime);
+  color: var(--on-lime);
+  font-weight: 700;
 }
 
 /* ---------- donate button ---------- */

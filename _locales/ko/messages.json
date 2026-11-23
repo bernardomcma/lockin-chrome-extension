@@ -1,0 +1,328 @@
+{
+  "extName": {
+    "message": "Lock In"
+  },
+  "extDescription": {
+    "message": "방해되는 사이트를 원하는 시간 동안 차단하고, 다시 접속하려 한 횟수를 기록합니다."
+  },
+  "popupIdleLabel": {
+    "message": "해제됨"
+  },
+  "popupRunningLabel": {
+    "message": "잠금 중"
+  },
+  "popupPausedLabel": {
+    "message": "일시정지"
+  },
+  "popupDurationLabel": {
+    "message": "시간 설정"
+  },
+  "popupMinutesShort": {
+    "message": "분"
+  },
+  "popupSitesLabel": {
+    "message": "차단할 사이트"
+  },
+  "popupSitesPlaceholder": {
+    "message": "youtube.com/shorts"
+  },
+  "popupAdd": {
+    "message": "추가"
+  },
+  "popupSitesHint": {
+    "message": "도메인, 경로 또는 단어를 입력하세요. \"youtube.com/shorts\"는 강의 영상을 열어둡니다."
+  },
+  "popupSitesEmpty": {
+    "message": "목록이 비어 있습니다. 사이트를 추가하세요."
+  },
+  "popupPresetsLabel": {
+    "message": "빠른 추가"
+  },
+  "popupRemoveSite": {
+    "message": "$1 제거"
+  },
+  "popupSiteInvalid": {
+    "message": "올바른 사이트 형식이 아닙니다."
+  },
+  "popupSiteDuplicate": {
+    "message": "$1 은(는) 이미 목록에 있습니다."
+  },
+  "popupSiteCovered": {
+    "message": "$1 이(가) 이미 전체 사이트를 차단하고 있습니다."
+  },
+  "popupPresetNothingNew": {
+    "message": "모두 이미 목록에 있습니다."
+  },
+  "presetSocial": {
+    "message": "SNS"
+  },
+  "presetVideo": {
+    "message": "동영상"
+  },
+  "presetForums": {
+    "message": "커뮤니티"
+  },
+  "popupStart": {
+    "message": "잠금 시작"
+  },
+  "popupPause": {
+    "message": "일시정지"
+  },
+  "popupResume": {
+    "message": "재개"
+  },
+  "popupStop": {
+    "message": "잠금 해제"
+  },
+  "popupTallyLabel": {
+    "message": "이번 세션 차단 횟수"
+  },
+  "popupSummary": {
+    "message": "통계"
+  },
+  "popupRepo": {
+    "message": "소스 코드"
+  },
+  "popupHeroClean": {
+    "message": "아직 딴길로 샌 적이 없습니다. 대단해요."
+  },
+  "popupToday": {
+    "message": "오늘: $1 · $2 · $3"
+  },
+  "popupTodayEmpty": {
+    "message": "오늘 기록이 아직 없습니다."
+  },
+  "blockedPageTitle": {
+    "message": "안 돼요 - Lock In"
+  },
+  "blockedShout1": {
+    "message": "안 돼요."
+  },
+  "blockedShout2": {
+    "message": "또요?"
+  },
+  "blockedShout3": {
+    "message": "정말요?"
+  },
+  "blockedShout4": {
+    "message": "오늘 유독 힘드네요."
+  },
+  "blockedThisSite": {
+    "message": "이 사이트는"
+  },
+  "blockedSiteVerb": {
+    "message": "나중에 봐도 됩니다."
+  },
+  "blockedRemainingLabel": {
+    "message": "남은 시간"
+  },
+  "blockedTallyFirst": {
+    "message": "첫 시도입니다. 얼마나 버티는지 봅시다."
+  },
+  "blockedTallySession": {
+    "message": "이번 세션 $1번째 시도. 기록됨."
+  },
+  "blockedTallyToday": {
+    "message": "오늘 $1번째 시도. 모두 기록됩니다."
+  },
+  "blockedBack": {
+    "message": "작업으로 돌아가기"
+  },
+  "blockedFootNoteOver": {
+    "message": "더 이상 차단된 사이트가 없습니다."
+  },
+  "blockedFootNote": {
+    "message": "세션이 진행 중입니다. 휴식 시간이 아닙니다."
+  },
+  "blockedSessionOver": {
+    "message": "세션이 끝났습니다. 자유입니다."
+  },
+  "blockedGoNow": {
+    "message": "계속하기"
+  },
+  "summaryPageTitle": {
+    "message": "통계 - Lock In"
+  },
+  "summaryHeading": {
+    "message": "통계"
+  },
+  "summarySub": {
+    "message": "$1 · 총 $2 집중"
+  },
+  "summarySubEmpty": {
+    "message": "아직 기록이 없습니다. 세션을 시작해 보세요."
+  },
+  "summaryReset": {
+    "message": "전체 삭제"
+  },
+  "summaryResetConfirm": {
+    "message": "모든 기록, 일일 통계 및 카운터를 삭제합니다. 되돌릴 수 없습니다. 계속할까요?"
+  },
+  "summaryWeekTitle": {
+    "message": "최근 14일"
+  },
+  "summaryWeekLegend": {
+    "message": "일일 집중 시간(분)"
+  },
+  "summaryBarTooltip": {
+    "message": "$1분 · $2 · $3"
+  },
+  "summaryNoData": {
+    "message": "데이터가 아직 없습니다."
+  },
+  "summaryOffendersTitle": {
+    "message": "자주 유혹한 사이트"
+  },
+  "summaryClearCounters": {
+    "message": "카운터 초기화"
+  },
+  "summaryNoAttempts": {
+    "message": "현재 세션에서 차단된 시도가 없습니다."
+  },
+  "summaryHistoryTitle": {
+    "message": "기록"
+  },
+  "summaryNoHistory": {
+    "message": "기록된 세션이 없습니다."
+  },
+  "summarySessionMeta": {
+    "message": "$1분 / 목표 $2분 · $3"
+  },
+  "summaryBadgeDone": {
+    "message": "완료"
+  },
+  "summaryBadgeCut": {
+    "message": "중단됨"
+  },
+  "statTodayFocus": {
+    "message": "오늘 집중"
+  },
+  "statTodaySessions": {
+    "message": "오늘 세션"
+  },
+  "statTodayBlocked": {
+    "message": "오늘 차단"
+  },
+  "statStreak": {
+    "message": "연속 기록"
+  },
+  "statAllTime": {
+    "message": "누적 집중"
+  },
+  "unitMinutes": {
+    "message": "$1분"
+  },
+  "unitHours": {
+    "message": "$1시간"
+  },
+  "unitHoursMinutes": {
+    "message": "$HOURS$시간$MINUTES$분",
+    "placeholders": {
+      "HOURS": {
+        "content": "$1"
+      },
+      "MINUTES": {
+        "content": "$2"
+      }
+    }
+  },
+  "unitMinAbbrev": {
+    "message": "분"
+  },
+  "unitDaysAbbrev": {
+    "message": "일"
+  },
+  "countSessionsOne": {
+    "message": "1회"
+  },
+  "countSessionsOther": {
+    "message": "$1회"
+  },
+  "countBlockedOne": {
+    "message": "1회 차단"
+  },
+  "countBlockedOther": {
+    "message": "$1회 차단"
+  },
+  "popupHeroBlockedOne": {
+    "message": "지금까지 1번 차단했습니다."
+  },
+  "popupHeroBlockedOther": {
+    "message": "지금까지 $1번 차단했습니다."
+  },
+  "popupPresetAddedOne": {
+    "message": "1개 사이트 추가됨."
+  },
+  "popupPresetAddedOther": {
+    "message": "$1개 사이트 추가됨."
+  },
+  "blockedPausedNote": {
+    "message": "일시정지됨. 재개하면 사이트가 다시 차단됩니다."
+  },
+  "supportButton": {
+    "message": "커피 사주기"
+  },
+  "supportPitch": {
+    "message": "마음에 드셨나요? 커피 한 잔 사주세요."
+  },
+  "supportNote": {
+    "message": "추적 없음, 유료 플랜 없음, 광고 없음."
+  },
+  "supportOpenLivepix": {
+    "message": "LivePix 열기"
+  },
+  "supportCopy": {
+    "message": "복사"
+  },
+  "supportCopied": {
+    "message": "복사됨"
+  },
+  "supportCopyFailed": {
+    "message": "실패"
+  },
+  "supportCopyAria": {
+    "message": "$1 주소 복사"
+  },
+  "supportQrAlt": {
+    "message": "$1 QR 코드"
+  },
+  "summarySupportTitle": {
+    "message": "후원"
+  },
+  "popupModeTimer": {
+    "message": "타이머"
+  },
+  "popupModePomodoro": {
+    "message": "뽀모도로"
+  },
+  "pomoFocusLabel": {
+    "message": "집중"
+  },
+  "pomoShortBreakLabel": {
+    "message": "짧은 휴식"
+  },
+  "pomoLongBreakLabel": {
+    "message": "긴 휴식"
+  },
+  "pomoRoundsLabel": {
+    "message": "라운드"
+  },
+  "pomoPhaseFocus": {
+    "message": "집중"
+  },
+  "pomoPhaseShortBreak": {
+    "message": "짧은 휴식"
+  },
+  "pomoPhaseLongBreak": {
+    "message": "긴 휴식"
+  },
+  "pomoBreakStateLabel": {
+    "message": "휴식"
+  },
+  "pomoBreakFoot": {
+    "message": "사이트 잠금 해제됨. 잠시 숨을 돌리세요."
+  },
+  "pomoSkipBreak": {
+    "message": "휴식 건너뛰기"
+  }
+}

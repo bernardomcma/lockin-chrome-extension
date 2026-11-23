@@ -1,0 +1,328 @@
+{
+  "extName": {
+    "message": "Lock In"
+  },
+  "extDescription": {
+    "message": "Sperrt ablenkende Websites für die gewählte Zeit — und zählt jeden Versuch, zurückzukehren."
+  },
+  "popupIdleLabel": {
+    "message": "entsperrt"
+  },
+  "popupRunningLabel": {
+    "message": "gesperrt"
+  },
+  "popupPausedLabel": {
+    "message": "pausiert"
+  },
+  "popupDurationLabel": {
+    "message": "wie lange"
+  },
+  "popupMinutesShort": {
+    "message": "Min"
+  },
+  "popupSitesLabel": {
+    "message": "was draußen bleibt"
+  },
+  "popupSitesPlaceholder": {
+    "message": "youtube.com/shorts"
+  },
+  "popupAdd": {
+    "message": "add"
+  },
+  "popupSitesHint": {
+    "message": "eine Domain, ein Pfad oder ein Wort. \"youtube.com/shorts\" lässt Vorlesungen offen."
+  },
+  "popupSitesEmpty": {
+    "message": "leere Liste. keine Liste, keine Sperre."
+  },
+  "popupPresetsLabel": {
+    "message": "Vorlagen"
+  },
+  "popupRemoveSite": {
+    "message": "$1 entfernen"
+  },
+  "popupSiteInvalid": {
+    "message": "das sieht nicht nach einer Website aus."
+  },
+  "popupSiteDuplicate": {
+    "message": "$1 ist bereits in der Liste."
+  },
+  "popupSiteCovered": {
+    "message": "$1 sperrt bereits die ganze Website, daher bringt diese Regel nichts."
+  },
+  "popupPresetNothingNew": {
+    "message": "all diese sind bereits in der Liste."
+  },
+  "presetSocial": {
+    "message": "Social"
+  },
+  "presetVideo": {
+    "message": "Video"
+  },
+  "presetForums": {
+    "message": "Foren"
+  },
+  "popupStart": {
+    "message": "sperren"
+  },
+  "popupPause": {
+    "message": "Pause"
+  },
+  "popupResume": {
+    "message": "fortsetzen"
+  },
+  "popupStop": {
+    "message": "entsperren"
+  },
+  "popupTallyLabel": {
+    "message": "in dieser Sitzung blockiert"
+  },
+  "popupSummary": {
+    "message": "die Zahlen"
+  },
+  "popupRepo": {
+    "message": "Quellcode"
+  },
+  "popupHeroClean": {
+    "message": "noch keine Umwege. beeindruckend."
+  },
+  "popupToday": {
+    "message": "heute: $1 · $2 · $3"
+  },
+  "popupTodayEmpty": {
+    "message": "heute noch nichts."
+  },
+  "blockedPageTitle": {
+    "message": "nö - Lock In"
+  },
+  "blockedShout1": {
+    "message": "nö."
+  },
+  "blockedShout2": {
+    "message": "schon wieder?"
+  },
+  "blockedShout3": {
+    "message": "wirklich?"
+  },
+  "blockedShout4": {
+    "message": "harter Tag heute, was."
+  },
+  "blockedThisSite": {
+    "message": "diese Seite"
+  },
+  "blockedSiteVerb": {
+    "message": "kann warten."
+  },
+  "blockedRemainingLabel": {
+    "message": "Restzeit"
+  },
+  "blockedTallyFirst": {
+    "message": "erster Versuch. mal sehen, wie lange das hält."
+  },
+  "blockedTallySession": {
+    "message": "Versuch Nummer $1 in dieser Sitzung. notiert."
+  },
+  "blockedTallyToday": {
+    "message": "Versuch Nummer $1 heute. alles notiert."
+  },
+  "blockedBack": {
+    "message": "zurück an die Arbeit"
+  },
+  "blockedFootNoteOver": {
+    "message": "nichts ist mehr gesperrt. viel Spaß."
+  },
+  "blockedFootNote": {
+    "message": "deine Sitzung läuft noch. das zählt nicht als Pause."
+  },
+  "blockedSessionOver": {
+    "message": "Sitzung vorbei. du bist frei."
+  },
+  "blockedGoNow": {
+    "message": "weiter"
+  },
+  "summaryPageTitle": {
+    "message": "die Zahlen - Lock In"
+  },
+  "summaryHeading": {
+    "message": "die Zahlen"
+  },
+  "summarySub": {
+    "message": "$1 · insgesamt $2 fokussiert"
+  },
+  "summarySubEmpty": {
+    "message": "noch nichts aufgezeichnet. starte eine Sitzung und komm zurück."
+  },
+  "summaryReset": {
+    "message": "alles löschen"
+  },
+  "summaryResetConfirm": {
+    "message": "Dies löscht den gesamten Verlauf, tägliche Statistiken und Zähler. Kein Rückgängig. Fortfahren?"
+  },
+  "summaryWeekTitle": {
+    "message": "letzte 14 Tage"
+  },
+  "summaryWeekLegend": {
+    "message": "Fokusminuten pro Tag"
+  },
+  "summaryBarTooltip": {
+    "message": "$1 Min · $2 · $3"
+  },
+  "summaryNoData": {
+    "message": "noch keine Daten."
+  },
+  "summaryOffendersTitle": {
+    "message": "wer ständig rief"
+  },
+  "summaryClearCounters": {
+    "message": "Zähler zurücksetzen"
+  },
+  "summaryNoAttempts": {
+    "message": "keine Umwege in der aktuellen Sitzung."
+  },
+  "summaryHistoryTitle": {
+    "message": "Verlauf"
+  },
+  "summaryNoHistory": {
+    "message": "keine Sitzungen aufgezeichnet."
+  },
+  "summarySessionMeta": {
+    "message": "$1 Min von $2 geplant · $3"
+  },
+  "summaryBadgeDone": {
+    "message": "abgeschlossen"
+  },
+  "summaryBadgeCut": {
+    "message": "abgebrochen"
+  },
+  "statTodayFocus": {
+    "message": "Fokus heute"
+  },
+  "statTodaySessions": {
+    "message": "Sitzungen heute"
+  },
+  "statTodayBlocked": {
+    "message": "heute blockiert"
+  },
+  "statStreak": {
+    "message": "Serie"
+  },
+  "statAllTime": {
+    "message": "Fokus gesamt"
+  },
+  "unitMinutes": {
+    "message": "$1 Min"
+  },
+  "unitHours": {
+    "message": "$1h"
+  },
+  "unitHoursMinutes": {
+    "message": "$HOURS$h$MINUTES$",
+    "placeholders": {
+      "HOURS": {
+        "content": "$1"
+      },
+      "MINUTES": {
+        "content": "$2"
+      }
+    }
+  },
+  "unitMinAbbrev": {
+    "message": "Min"
+  },
+  "unitDaysAbbrev": {
+    "message": "T"
+  },
+  "countSessionsOne": {
+    "message": "1 Sitzung"
+  },
+  "countSessionsOther": {
+    "message": "$1 Sitzungen"
+  },
+  "countBlockedOne": {
+    "message": "1 blockiert"
+  },
+  "countBlockedOther": {
+    "message": "$1 blockiert"
+  },
+  "popupHeroBlockedOne": {
+    "message": "bisher 1 Umweg blockiert."
+  },
+  "popupHeroBlockedOther": {
+    "message": "bisher $1 Umwege blockiert."
+  },
+  "popupPresetAddedOne": {
+    "message": "1 Seite hinzugefügt."
+  },
+  "popupPresetAddedOther": {
+    "message": "$1 Seiten hinzugefügt."
+  },
+  "blockedPausedNote": {
+    "message": "Sitzung pausiert. die Seiten werden beim Fortsetzen wieder gesperrt."
+  },
+  "supportButton": {
+    "message": "spendier mir einen Kaffee"
+  },
+  "supportPitch": {
+    "message": "gefällt's? spendier mir einen Kaffee."
+  },
+  "supportNote": {
+    "message": "kein Tracking, kein Abo, keine Werbung. das ist alles."
+  },
+  "supportOpenLivepix": {
+    "message": "LivePix öffnen"
+  },
+  "supportCopy": {
+    "message": "kopieren"
+  },
+  "supportCopied": {
+    "message": "kopiert"
+  },
+  "supportCopyFailed": {
+    "message": "fehlgeschlagen"
+  },
+  "supportCopyAria": {
+    "message": "$1-Adresse kopieren"
+  },
+  "supportQrAlt": {
+    "message": "QR-Code für $1"
+  },
+  "summarySupportTitle": {
+    "message": "Spenden"
+  },
+  "popupModeTimer": {
+    "message": "Timer"
+  },
+  "popupModePomodoro": {
+    "message": "Pomodoro"
+  },
+  "pomoFocusLabel": {
+    "message": "Fokus"
+  },
+  "pomoShortBreakLabel": {
+    "message": "kurze Pause"
+  },
+  "pomoLongBreakLabel": {
+    "message": "lange Pause"
+  },
+  "pomoRoundsLabel": {
+    "message": "Runden"
+  },
+  "pomoPhaseFocus": {
+    "message": "Fokus"
+  },
+  "pomoPhaseShortBreak": {
+    "message": "kurze Pause"
+  },
+  "pomoPhaseLongBreak": {
+    "message": "lange Pause"
+  },
+  "pomoBreakStateLabel": {
+    "message": "Pause"
+  },
+  "pomoBreakFoot": {
+    "message": "Seiten entsperrt. kurz durchatmen."
+  },
+  "pomoSkipBreak": {
+    "message": "Pause überspringen"
+  }
+}

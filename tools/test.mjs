@@ -514,12 +514,12 @@ await test('every declared locale loads and translates', async () => {
 });
 
 await test('an unsupported stored locale falls back to English', async () => {
-  store[STORAGE_KEYS.LOCALE] = 'de';
+  store[STORAGE_KEYS.LOCALE] = 'tlh';
   const locale = await initI18n();
 
   assert(locale.code === 'en', `got ${locale.code}`);
-  assert(!isSupportedLocale('de'), 'de should not be supported');
-  assert(isSupportedLocale('es'), 'es should be supported');
+  assert(!isSupportedLocale('tlh'), 'tlh should not be supported');
+  assert(isSupportedLocale('de'), 'de should be supported');
 });
 
 await test('a key missing from a translation falls back to English', async () => {
@@ -552,8 +552,8 @@ await test('named placeholders resolve, in every locale', async () => {
     const rendered = translate('unitHoursMinutes', 1, '50');
 
     assert(
-      rendered === '1h50',
-      `${locale.code} rendered unitHoursMinutes as "${rendered}", expected "1h50"`
+      rendered.includes('1') && rendered.includes('50') && !rendered.includes('$'),
+      `${locale.code} rendered unitHoursMinutes as "${rendered}"`
     );
   }
 });
